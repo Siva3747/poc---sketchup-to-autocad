@@ -110,6 +110,18 @@ docker-compose up --build
 
 ---
 
+### Render Cloud Deployment
+
+The repository includes a [render.yaml](file:///d:/poc3/render.yaml) blueprint config that deploys the React frontend, FastAPI backend, and PostgreSQL database with a single click:
+
+1. Push the project to your GitHub account (completed!).
+2. Log into the **[Render Dashboard](https://dashboard.render.com)**.
+3. Click **New +** and select **Blueprint**.
+4. Link this GitHub repository.
+5. Render will automatically detect the services in `render.yaml` and provision the frontend, backend, and database automatically.
+
+---
+
 ## ODA File Converter Installation
 
 To support **DWG generation**:

@@ -1,0 +1,46 @@
+# Render Blueprint Specification
+# Deploy both the React frontend and FastAPI backend with a single click.
+# Learn more at: https://render.com/docs/blueprints
+
+services:
+  # 1. Python FastAPI Backend Service
+  - type: web
+    name: cad-backend
+    env: python
+    plan: free # Change to 'starter' or higher if using persistent disks
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: cad-db
+          property: connectionString
+      - key: PYTHONPATH
+        value: .
+      # Set ODA Converter path if installed on Render (requires custom Docker environment, default falls back to DXF)
+      - key: ODA_CONVERTER_PATH
+        value: /usr/bin/ODAFileConverter
+    # Note: For persistent storage of uploaded and generated CAD files,
+    # uncomment the disk configuration below. (Note: Persistent disks require a paid plan on Render)
+    # disk:
+    #   name: uploads-disk
+    #   mountPath: /app/backend/uploads
+    #   sizeGB: 1
+
+  # 2. React Frontend Static Site
+  - type: static
+    name: cad-frontend
+    env: static
+    buildCommand: export VITE_API_URL="$VITE_API_HOST/api/v1" && cd frontend && npm install && npm run build
+    publishPath: frontend/dist
+    envVars:
+      - key: VITE_API_HOST
+        fromService:
+          type: web
+          name: cad-backend
+          property: host
+
+# 3. PostgreSQL Database
+databases:
+  - name: cad-db
+    plan: free
