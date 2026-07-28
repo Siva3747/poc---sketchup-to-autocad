@@ -31,14 +31,11 @@ services:
   - type: web
     name: cad-frontend
     runtime: static
-    buildCommand: export VITE_API_URL="https://$VITE_API_HOST/api/v1" && cd frontend && npm install && npm run build
+    buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
     envVars:
-      - key: VITE_API_HOST
-        fromService:
-          type: web
-          name: cad-backend
-          property: host
+      - key: VITE_API_URL
+        sync: false # Render will ask you for this value during deployment (use your backend's public URL)
 
 # 3. PostgreSQL Database
 databases:
