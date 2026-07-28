@@ -1,0 +1,5 @@
+SketchUp Model - Binary Signature Verification Dummy.
+This file contains the header signature for checking .skp uploads.
+In production, use actual SketchUp models.
+ActiveModel: Dummy
+Version: 2021

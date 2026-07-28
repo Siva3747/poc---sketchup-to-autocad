@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/uploads:/app/backend/uploads
+    environment:
+      - DATABASE_URL=sqlite:///./projects.db
+      - ODA_CONVERTER_PATH=/usr/bin/ODAFileConverter # Path if installed in container
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_URL=http://localhost:8000/api/v1
+    depends_on:
+      - backend
+    restart: always

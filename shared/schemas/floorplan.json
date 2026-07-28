@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FloorPlanSchema",
+  "type": "object",
+  "properties": {
+    "walls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "start": {
+            "type": "object",
+            "properties": {
+              "x": { "type": "number" },
+              "y": { "type": "number" }
+            },
+            "required": ["x", "y"]
+          },
+          "end": {
+            "type": "object",
+            "properties": {
+              "x": { "type": "number" },
+              "y": { "type": "number" }
+            },
+            "required": ["x", "y"]
+          },
+          "thickness": { "type": "number", "default": 200 },
+          "height": { "type": "number", "default": 2800 },
+          "layer": { "type": "string", "default": "Walls" }
+        },
+        "required": ["id", "start", "end"]
+      }
+    },
+    "doors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "wallId": { "type": "string" },
+          "position": { "type": "number", "minimum": 0, "maximum": 1 },
+          "width": { "type": "number", "default": 900 },
+          "height": { "type": "number", "default": 2100 },
+          "hand": { "type": "string", "enum": ["left", "right"], "default": "left" },
+          "direction": { "type": "string", "enum": ["in", "out"], "default": "in" },
+          "layer": { "type": "string", "default": "Doors" }
+        },
+        "required": ["id", "wallId", "position", "width"]
+      }
+    },
+    "windows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "wallId": { "type": "string" },
+          "position": { "type": "number", "minimum": 0, "maximum": 1 },
+          "width": { "type": "number", "default": 1200 },
+          "height": { "type": "number", "default": 1500 },
+          "elevation": { "type": "number", "default": 900 },
+          "layer": { "type": "string", "default": "Windows" }
+        },
+        "required": ["id", "wallId", "position", "width"]
+      }
+    },
+    "rooms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "x": { "type": "number" },
+                "y": { "type": "number" }
+              },
+              "required": ["x", "y"]
+            }
+          },
+          "area": { "type": "number" },
+          "layer": { "type": "string", "default": "Rooms" }
+        },
+        "required": ["id", "name", "points"]
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "unit": { "type": "string", "enum": ["mm", "cm", "m", "in", "ft"], "default": "mm" },
+        "scale": { "type": "number", "default": 1.0 },
+        "created_at": { "type": "string" },
+        "updated_at": { "type": "string" }
+      },
+      "required": ["unit"]
+    }
+  },
+  "required": ["walls", "doors", "windows", "rooms", "metadata"]
+}

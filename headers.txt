@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+date: Tue, 28 Jul 2026 10:49:46 GMT
+server: uvicorn
+content-type: image/vnd.dxf
+accept-ranges: bytes
+content-disposition: attachment; filename="sample_floorplan.dxf"
+content-length: 24118
+last-modified: Tue, 28 Jul 2026 10:05:30 GMT
+etag: "114a561f64d935ea54c80a7ec5bb1a2c"
+
