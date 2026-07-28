@@ -31,7 +31,7 @@ services:
   - type: static
     name: cad-frontend
     env: static
-    buildCommand: export VITE_API_URL="$VITE_API_HOST/api/v1" && cd frontend && npm install && npm run build
+    buildCommand: export VITE_API_URL="https://$VITE_API_HOST/api/v1" && cd frontend && npm install && npm run build
     publishPath: frontend/dist
     envVars:
       - key: VITE_API_HOST
