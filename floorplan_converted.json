@@ -1,0 +1,132 @@
+{
+  "metadata": {
+    "name": "sdada",
+    "unit": "mm",
+    "scale": 1.0,
+    "created_at": null,
+    "updated_at": null
+  },
+  "walls": [
+    {
+      "id": "daf17a8c-998b-4429-bb70-773104e378ac",
+      "start": {
+        "x": 125000.0,
+        "y": 51000.0
+      },
+      "end": {
+        "x": 157680.0,
+        "y": 51000.0
+      },
+      "thickness": 2286.0,
+      "height": 30480.0,
+      "layer": "Ground Floor"
+    },
+    {
+      "id": "197471eb-af82-400e-9831-bb7e57d55fd7",
+      "start": {
+        "x": 157680.0,
+        "y": 51000.0
+      },
+      "end": {
+        "x": 157680.0,
+        "y": 83680.0
+      },
+      "thickness": 2286.0,
+      "height": 30480.0,
+      "layer": "Ground Floor"
+    },
+    {
+      "id": "d43e8e7e-168d-45a4-8c36-de6db8123cc7",
+      "start": {
+        "x": 157680.0,
+        "y": 83680.0
+      },
+      "end": {
+        "x": 125000.0,
+        "y": 83680.0
+      },
+      "thickness": 2286.0,
+      "height": 30480.0,
+      "layer": "Ground Floor"
+    },
+    {
+      "id": "b945ab9c-9b5c-4d6a-9874-003b8b9001c2",
+      "start": {
+        "x": 125000.0,
+        "y": 83680.0
+      },
+      "end": {
+        "x": 125000.0,
+        "y": 51000.0
+      },
+      "thickness": 2286.0,
+      "height": 30480.0,
+      "layer": "Ground Floor"
+    }
+  ],
+  "doors": [],
+  "windows": [],
+  "rooms": [
+    {
+      "id": "auto_1902278114",
+      "name": "Room 1",
+      "points": [
+        {
+          "x": 156537.0,
+          "y": 52143.0
+        },
+        {
+          "x": 156537.0,
+          "y": 82537.0
+        },
+        {
+          "x": 126143.0,
+          "y": 82537.0
+        },
+        {
+          "x": 126143.0,
+          "y": 52143.0
+        }
+      ],
+      "area": null,
+      "layer": "Ground Floor"
+    }
+  ],
+  "raw_geometry": {
+    "faces": [
+      {
+        "id": "face_auto_1902278114",
+        "layer": "Ground Floor",
+        "vertices": [
+          {
+            "x": 156537.0,
+            "y": 52143.0,
+            "z": 0
+          },
+          {
+            "x": 156537.0,
+            "y": 82537.0,
+            "z": 0
+          },
+          {
+            "x": 126143.0,
+            "y": 82537.0,
+            "z": 0
+          },
+          {
+            "x": 126143.0,
+            "y": 52143.0,
+            "z": 0
+          }
+        ],
+        "normal": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      }
+    ],
+    "edges": [],
+    "instances": []
+  }
+}

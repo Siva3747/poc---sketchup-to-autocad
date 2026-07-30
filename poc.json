@@ -1,0 +1,1860 @@
+{
+  "id": "7ba11db3-771d-473d-8943-6044b1d78b30",
+  "name": "sdada",
+  "unit": "cent",
+  "selectedLayer": "6b90b8ff-34a7-4bc7-867b-13d403f68229",
+  "layers": {
+    "6b90b8ff-34a7-4bc7-867b-13d403f68229": {
+      "id": "6b90b8ff-34a7-4bc7-867b-13d403f68229",
+      "name": "Ground Floor",
+      "altitude": 0,
+      "visible": true,
+      "locked": false,
+      "color": "#00d4ff",
+      "vertices": {
+        "df79abed-a294-4f5f-9cdd-12e15332e13e": {
+          "id": "df79abed-a294-4f5f-9cdd-12e15332e13e",
+          "x": 15768,
+          "y": 5100,
+          "isJunction": false,
+          "junctionType": "l"
+        },
+        "7edfe6a0-7e54-44dc-af8d-c81917466a59": {
+          "id": "7edfe6a0-7e54-44dc-af8d-c81917466a59",
+          "x": 15768,
+          "y": 8831.999633789062,
+          "isJunction": false,
+          "junctionType": "l"
+        },
+        "347fd5a6-4bb5-425e-ac7d-b6aa29e22f0a": {
+          "id": "347fd5a6-4bb5-425e-ac7d-b6aa29e22f0a",
+          "x": 12614.3,
+          "y": 8831.999633789062,
+          "isJunction": false,
+          "junctionType": "l"
+        },
+        "d83740e0-de0d-4b6a-916d-a2f3757c4afa": {
+          "id": "d83740e0-de0d-4b6a-916d-a2f3757c4afa",
+          "x": 12567.604745603443,
+          "y": 5214.3,
+          "isJunction": true,
+          "junctionType": "t"
+        },
+        "b495b26a-1bef-4c24-9e24-bdba969fca07": {
+          "id": "b495b26a-1bef-4c24-9e24-bdba969fca07",
+          "x": 12614.3,
+          "y": 2100,
+          "isJunction": true,
+          "junctionType": "t"
+        },
+        "d510414d-8b02-416b-ae26-f0443a5c92bc": {
+          "id": "d510414d-8b02-416b-ae26-f0443a5c92bc",
+          "x": 16068.000244140625,
+          "y": 2100,
+          "isJunction": false,
+          "junctionType": "l"
+        },
+        "17d571e6-31ce-41e9-bd73-95220648006d": {
+          "id": "17d571e6-31ce-41e9-bd73-95220648006d",
+          "x": 18388.000244140625,
+          "y": 2100,
+          "isJunction": false,
+          "junctionType": "l"
+        },
+        "ec67f10c-b80e-4c31-93f4-9792be1b4328": {
+          "id": "ec67f10c-b80e-4c31-93f4-9792be1b4328",
+          "x": 18084,
+          "y": 5100,
+          "isJunction": false
+        },
+        "a70c914f-abec-43f9-a5f9-064e57bb4b60": {
+          "id": "a70c914f-abec-43f9-a5f9-064e57bb4b60",
+          "x": 18388.000244140625,
+          "y": 8714,
+          "isJunction": false,
+          "junctionType": "l"
+        },
+        "ea0f5864-272d-410f-b000-9d06fce8278a": {
+          "id": "ea0f5864-272d-410f-b000-9d06fce8278a",
+          "x": 15768,
+          "y": 8697.9990234375,
+          "isJunction": true,
+          "junctionType": "t"
+        },
+        "92cada4d-06cb-4e18-810e-b6a9de61711d": {
+          "id": "92cada4d-06cb-4e18-810e-b6a9de61711d",
+          "x": 12507.783166513438,
+          "y": 5100,
+          "hostedOn": {
+            "hostLineId": "2b35a50f-6266-452e-937c-fc2e5724a7c9",
+            "face": "center",
+            "offsetAlongWall": 113.39030081234696
+          },
+          "isJunction": true,
+          "junctionType": "t"
+        },
+        "824bba29-3452-4f48-a730-380799c8c63f": {
+          "id": "824bba29-3452-4f48-a730-380799c8c63f",
+          "x": 12569.318539257723,
+          "y": 5100,
+          "isJunction": true,
+          "junctionType": "x"
+        },
+        "61116ef3-f9b9-41b9-a39b-7dc3bafd3709": {
+          "id": "61116ef3-f9b9-41b9-a39b-7dc3bafd3709",
+          "x": 12617.727587308551,
+          "y": 1871.3999999999996,
+          "isJunction": false,
+          "junctionType": "end"
+        }
+      },
+      "lines": {
+        "d43e8e7e-168d-45a4-8c36-de6db8123cc7": {
+          "id": "d43e8e7e-168d-45a4-8c36-de6db8123cc7",
+          "type": "wall",
+          "visible": true,
+          "selected": false,
+          "prototype": "wall",
+          "vertices": [
+            "7edfe6a0-7e54-44dc-af8d-c81917466a59",
+            "347fd5a6-4bb5-425e-ac7d-b6aa29e22f0a"
+          ],
+          "holes": [],
+          "properties": {
+            "thickness": {
+              "length": 228.6
+            },
+            "height": {
+              "length": 3048
+            },
+            "bearingType": false,
+            "color": "#b0bec5",
+            "alignment": "center",
+            "materialType": "brickwork"
+          },
+          "outer_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#b0bec5",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "inner_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#b0bec5",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "geometry": {
+            "rawPolygon": [
+              {
+                "x": 15768,
+                "y": 8717.699633789063
+              },
+              {
+                "x": 15768,
+                "y": 8946.299633789062
+              },
+              {
+                "x": 12614.3,
+                "y": 8946.299633789062
+              },
+              {
+                "x": 12614.3,
+                "y": 8717.699633789063
+              }
+            ],
+            "cleanedPolygon": [
+              {
+                "x": 15653.7,
+                "y": 8717.699633789063
+              },
+              {
+                "x": 15882.3,
+                "y": 8946.299633789062
+              },
+              {
+                "x": 12501.46579990282,
+                "y": 8946.299633789062
+              },
+              {
+                "x": 12727.134200097178,
+                "y": 8717.699633789063
+              }
+            ],
+            "dirty": false
+          }
+        },
+        "0df3376c-f3b6-4a3d-9179-b61308f38f35": {
+          "id": "0df3376c-f3b6-4a3d-9179-b61308f38f35",
+          "type": "wall",
+          "visible": true,
+          "selected": false,
+          "prototype": "wall",
+          "vertices": [
+            "b495b26a-1bef-4c24-9e24-bdba969fca07",
+            "d510414d-8b02-416b-ae26-f0443a5c92bc"
+          ],
+          "holes": [],
+          "properties": {
+            "thickness": {
+              "length": 228.6
+            },
+            "height": {
+              "length": 3048
+            },
+            "bearingType": false,
+            "color": "#ffffff",
+            "alignment": "right",
+            "materialType": "brickwork"
+          },
+          "outer_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "inner_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "geometry": {
+            "rawPolygon": [
+              {
+                "x": 12614.3,
+                "y": 2100
+              },
+              {
+                "x": 12614.3,
+                "y": 1871.4
+              },
+              {
+                "x": 16068.000244140625,
+                "y": 1871.4
+              },
+              {
+                "x": 16068.000244140625,
+                "y": 2100
+              }
+            ],
+            "cleanedPolygon": [
+              {
+                "x": 12614.3,
+                "y": 2100
+              },
+              {
+                "x": 12614.3,
+                "y": 1871.4
+              },
+              {
+                "x": 16068.000244140625,
+                "y": 1871.4
+              },
+              {
+                "x": 16068.000244140625,
+                "y": 2100
+              }
+            ],
+            "dirty": false
+          }
+        },
+        "5418b958-8ac5-477f-9c6a-73d3c4f1263f": {
+          "id": "5418b958-8ac5-477f-9c6a-73d3c4f1263f",
+          "type": "wall",
+          "visible": true,
+          "selected": false,
+          "prototype": "wall",
+          "vertices": [
+            "d510414d-8b02-416b-ae26-f0443a5c92bc",
+            "17d571e6-31ce-41e9-bd73-95220648006d"
+          ],
+          "holes": [],
+          "properties": {
+            "thickness": {
+              "length": 228.6
+            },
+            "height": {
+              "length": 3048
+            },
+            "bearingType": false,
+            "color": "#ffffff",
+            "alignment": "right",
+            "materialType": "brickwork"
+          },
+          "outer_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "inner_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "geometry": {
+            "rawPolygon": [
+              {
+                "x": 16068.000244140625,
+                "y": 2100
+              },
+              {
+                "x": 16068.000244140625,
+                "y": 1871.4
+              },
+              {
+                "x": 18388.000244140625,
+                "y": 1871.4
+              },
+              {
+                "x": 18388.000244140625,
+                "y": 2100
+              }
+            ],
+            "cleanedPolygon": [
+              {
+                "x": 16068.000244140625,
+                "y": 2100
+              },
+              {
+                "x": 16068.000244140625,
+                "y": 1871.4
+              },
+              {
+                "x": 18616.600244140624,
+                "y": 1871.4
+              },
+              {
+                "x": 18388.000244140625,
+                "y": 2100
+              }
+            ],
+            "dirty": false
+          }
+        },
+        "c03981f1-11c2-4af1-8279-fdeaafed3e89": {
+          "id": "c03981f1-11c2-4af1-8279-fdeaafed3e89",
+          "type": "wall",
+          "visible": true,
+          "selected": false,
+          "prototype": "wall",
+          "vertices": [
+            "17d571e6-31ce-41e9-bd73-95220648006d",
+            "a70c914f-abec-43f9-a5f9-064e57bb4b60"
+          ],
+          "holes": [
+            "fe0b1a89-6bd3-4103-bd18-2845910898d8",
+            "6f578775-4274-4d37-9c76-55ab72fd229c"
+          ],
+          "properties": {
+            "thickness": {
+              "length": 228.6
+            },
+            "height": {
+              "length": 3048
+            },
+            "bearingType": false,
+            "color": "#ffffff",
+            "alignment": "right",
+            "materialType": "brickwork"
+          },
+          "outer_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "inner_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "geometry": {
+            "rawPolygon": [
+              {
+                "x": 18388.000244140625,
+                "y": 2100
+              },
+              {
+                "x": 18616.600244140624,
+                "y": 2100
+              },
+              {
+                "x": 18616.600244140624,
+                "y": 8714
+              },
+              {
+                "x": 18388.000244140625,
+                "y": 8714
+              }
+            ],
+            "cleanedPolygon": [
+              {
+                "x": 18388.000244140625,
+                "y": 2100
+              },
+              {
+                "x": 18616.600244140624,
+                "y": 1871.4
+              },
+              {
+                "x": 18616.600244140624,
+                "y": 8944.00037877967
+              },
+              {
+                "x": 18388.000244140625,
+                "y": 8714
+              }
+            ],
+            "dirty": false
+          }
+        },
+        "ebb1afa3-b79e-4704-8c78-44bf16e7fd8a": {
+          "id": "ebb1afa3-b79e-4704-8c78-44bf16e7fd8a",
+          "type": "wall",
+          "visible": true,
+          "selected": false,
+          "prototype": "wall",
+          "vertices": [
+            "a70c914f-abec-43f9-a5f9-064e57bb4b60",
+            "ea0f5864-272d-410f-b000-9d06fce8278a"
+          ],
+          "holes": [
+            "1ba3c29c-1b72-4f8d-b7e4-f90f89be85e2"
+          ],
+          "properties": {
+            "thickness": {
+              "length": 228.6
+            },
+            "height": {
+              "length": 3048
+            },
+            "bearingType": false,
+            "color": "#ffffff",
+            "alignment": "right",
+            "materialType": "brickwork"
+          },
+          "outer_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "inner_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "geometry": {
+            "rawPolygon": [
+              {
+                "x": 18388.000244140625,
+                "y": 8714
+              },
+              {
+                "x": 18386.604154565146,
+                "y": 8942.595736911031
+              },
+              {
+                "x": 15766.60391042452,
+                "y": 8926.594760348531
+              },
+              {
+                "x": 15768,
+                "y": 8697.9990234375
+              }
+            ],
+            "cleanedPolygon": [
+              {
+                "x": 18388.000244140625,
+                "y": 8714
+              },
+              {
+                "x": 18616.600244140624,
+                "y": 8944.00037877967
+              },
+              {
+                "x": 15766.60391042452,
+                "y": 8926.594760348531
+              },
+              {
+                "x": 15768,
+                "y": 8697.9990234375
+              }
+            ],
+            "dirty": false
+          }
+        },
+        "741e0f6b-fffb-4fbc-a8b8-d2800d19759f": {
+          "id": "741e0f6b-fffb-4fbc-a8b8-d2800d19759f",
+          "type": "wall",
+          "visible": true,
+          "selected": false,
+          "prototype": "wall",
+          "vertices": [
+            "347fd5a6-4bb5-425e-ac7d-b6aa29e22f0a",
+            "d83740e0-de0d-4b6a-916d-a2f3757c4afa"
+          ],
+          "holes": [
+            "b414d4ca-fa6b-46b5-9a02-5115f64679e1"
+          ],
+          "properties": {
+            "thickness": {
+              "length": 228.6
+            },
+            "height": {
+              "length": 3048
+            },
+            "bearingType": false,
+            "color": "#b0bec5",
+            "alignment": "center",
+            "materialType": "brickwork"
+          },
+          "outer_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#b0bec5",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "inner_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#b0bec5",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "geometry": {
+            "rawPolygon": [
+              {
+                "x": 12668.873437859851,
+                "y": 5161.298660689781
+              },
+              {
+                "x": 12466.336053347035,
+                "y": 5267.301339310219
+              },
+              {
+                "x": 12406.51447425703,
+                "y": 5153.001339310219
+              },
+              {
+                "x": 12609.051858769846,
+                "y": 5046.998660689781
+              }
+            ],
+            "cleanedPolygon": [
+              {
+                "x": 12727.134200097178,
+                "y": 8717.699633789063
+              },
+              {
+                "x": 12501.46579990282,
+                "y": 8946.299633789062
+              },
+              {
+                "x": 12341.753452704166,
+                "y": 5029.263636693653
+              },
+              {
+                "x": 12348.939349069358,
+                "y": 4550.006432951458
+              }
+            ],
+            "dirty": false
+          }
+        },
+        "a47f2a97-6e22-4e1e-801a-99ada83c68ab": {
+          "id": "a47f2a97-6e22-4e1e-801a-99ada83c68ab",
+          "type": "wall",
+          "visible": true,
+          "selected": false,
+          "prototype": "wall",
+          "vertices": [
+            "d83740e0-de0d-4b6a-916d-a2f3757c4afa",
+            "92cada4d-06cb-4e18-810e-b6a9de61711d"
+          ],
+          "holes": [],
+          "properties": {
+            "thickness": {
+              "length": 228.6
+            },
+            "height": {
+              "length": 3048
+            },
+            "bearingType": false,
+            "color": "#b0bec5",
+            "alignment": "center",
+            "materialType": "brickwork"
+          },
+          "outer_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#b0bec5",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "inner_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#b0bec5",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "geometry": {
+            "rawPolygon": [
+              {
+                "x": 12668.873437859851,
+                "y": 5161.298660689781
+              },
+              {
+                "x": 12466.336053347035,
+                "y": 5267.301339310219
+              },
+              {
+                "x": 12406.51447425703,
+                "y": 5153.001339310219
+              },
+              {
+                "x": 12609.051858769846,
+                "y": 5046.998660689781
+              }
+            ],
+            "cleanedPolygon": [
+              {
+                "x": 12727.134200097178,
+                "y": 8717.699633789063
+              },
+              {
+                "x": 12501.46579990282,
+                "y": 8946.299633789062
+              },
+              {
+                "x": 12341.753452704166,
+                "y": 5029.263636693653
+              },
+              {
+                "x": 12348.939349069358,
+                "y": 4550.006432951458
+              }
+            ],
+            "dirty": false
+          }
+        },
+        "2b35a50f-6266-452e-937c-fc2e5724a7c9": {
+          "id": "2b35a50f-6266-452e-937c-fc2e5724a7c9",
+          "type": "wall",
+          "visible": true,
+          "selected": false,
+          "prototype": "wall",
+          "vertices": [
+            "d83740e0-de0d-4b6a-916d-a2f3757c4afa",
+            "824bba29-3452-4f48-a730-380799c8c63f"
+          ],
+          "holes": [],
+          "properties": {
+            "thickness": {
+              "length": 228.6
+            },
+            "height": {
+              "length": 3048
+            },
+            "bearingType": false,
+            "color": "#ffffff",
+            "alignment": "right",
+            "materialType": "brickwork"
+          },
+          "outer_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "inner_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "geometry": {
+            "rawPolygon": [
+              {
+                "x": 12567.604745603443,
+                "y": 5214.3
+              },
+              {
+                "x": 12339.030437585567,
+                "y": 5210.872797912401
+              },
+              {
+                "x": 12340.744231239847,
+                "y": 5096.572797912401
+              },
+              {
+                "x": 12569.318539257723,
+                "y": 5100
+              }
+            ],
+            "cleanedPolygon": [
+              {
+                "x": 12567.604745603443,
+                "y": 5214.3
+              },
+              {
+                "x": 12339.030437585567,
+                "y": 5210.872797912401
+              },
+              {
+                "x": 12340.744231239847,
+                "y": 5096.572797912401
+              },
+              {
+                "x": 12569.318539257723,
+                "y": 5100
+              }
+            ],
+            "dirty": false
+          }
+        },
+        "c49b1fcc-e04e-426d-b359-54393b84e442": {
+          "id": "c49b1fcc-e04e-426d-b359-54393b84e442",
+          "type": "wall",
+          "visible": true,
+          "selected": false,
+          "prototype": "wall",
+          "vertices": [
+            "92cada4d-06cb-4e18-810e-b6a9de61711d",
+            "824bba29-3452-4f48-a730-380799c8c63f"
+          ],
+          "holes": [],
+          "properties": {
+            "thickness": {
+              "length": 228.6
+            },
+            "height": {
+              "length": 3048
+            },
+            "bearingType": false,
+            "color": "#b0bec5",
+            "alignment": "center",
+            "materialType": "brickwork"
+          },
+          "outer_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#b0bec5",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "inner_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#b0bec5",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "geometry": {
+            "rawPolygon": [
+              {
+                "x": 12569.318539257723,
+                "y": 5214.3
+              },
+              {
+                "x": 12569.318539257723,
+                "y": 4985.7
+              },
+              {
+                "x": 15768,
+                "y": 4985.7
+              },
+              {
+                "x": 15768,
+                "y": 5214.3
+              }
+            ],
+            "cleanedPolygon": [
+              {
+                "x": 12338.979050733513,
+                "y": 5214.3
+              },
+              {
+                "x": 12342.406638042074,
+                "y": 4985.7
+              },
+              {
+                "x": 15882.3,
+                "y": 4985.7
+              },
+              {
+                "x": 15653.7,
+                "y": 5214.3
+              }
+            ],
+            "dirty": false
+          }
+        },
+        "cd705fda-91ca-4ce4-aca6-3babbe8bf483": {
+          "id": "cd705fda-91ca-4ce4-aca6-3babbe8bf483",
+          "type": "wall",
+          "visible": true,
+          "selected": false,
+          "prototype": "wall",
+          "vertices": [
+            "824bba29-3452-4f48-a730-380799c8c63f",
+            "df79abed-a294-4f5f-9cdd-12e15332e13e"
+          ],
+          "holes": [
+            "6ac24318-1bb6-4b2f-99c8-9d37d3705730"
+          ],
+          "properties": {
+            "thickness": {
+              "length": 228.6
+            },
+            "height": {
+              "length": 3048
+            },
+            "bearingType": false,
+            "color": "#b0bec5",
+            "alignment": "center",
+            "materialType": "brickwork"
+          },
+          "outer_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#b0bec5",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "inner_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#b0bec5",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "geometry": {
+            "rawPolygon": [
+              {
+                "x": 12569.318539257723,
+                "y": 5214.3
+              },
+              {
+                "x": 12569.318539257723,
+                "y": 4985.7
+              },
+              {
+                "x": 15768,
+                "y": 4985.7
+              },
+              {
+                "x": 15768,
+                "y": 5214.3
+              }
+            ],
+            "cleanedPolygon": [
+              {
+                "x": 12338.979050733513,
+                "y": 5214.3
+              },
+              {
+                "x": 12342.406638042074,
+                "y": 4985.7
+              },
+              {
+                "x": 15882.3,
+                "y": 4985.7
+              },
+              {
+                "x": 15653.7,
+                "y": 5214.3
+              }
+            ],
+            "dirty": false
+          }
+        },
+        "fc739807-6fe6-4d35-89ed-2a9c27053172": {
+          "id": "fc739807-6fe6-4d35-89ed-2a9c27053172",
+          "type": "wall",
+          "visible": true,
+          "selected": false,
+          "prototype": "wall",
+          "vertices": [
+            "824bba29-3452-4f48-a730-380799c8c63f",
+            "b495b26a-1bef-4c24-9e24-bdba969fca07"
+          ],
+          "holes": [],
+          "properties": {
+            "thickness": {
+              "length": 228.6
+            },
+            "height": {
+              "length": 3048
+            },
+            "bearingType": false,
+            "color": "#ffffff",
+            "alignment": "right",
+            "materialType": "brickwork"
+          },
+          "outer_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "inner_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "geometry": {
+            "rawPolygon": [
+              {
+                "x": 12569.318539257723,
+                "y": 5100
+              },
+              {
+                "x": 12340.744231239847,
+                "y": 5096.5727979124
+              },
+              {
+                "x": 12385.725691982123,
+                "y": 2096.5727979124003
+              },
+              {
+                "x": 12614.3,
+                "y": 2100
+              }
+            ],
+            "cleanedPolygon": [
+              {
+                "x": 12569.318539257723,
+                "y": 5100
+              },
+              {
+                "x": 12340.744231239847,
+                "y": 5096.5727979124
+              },
+              {
+                "x": 12385.725691982123,
+                "y": 2096.5727979124003
+              },
+              {
+                "x": 12614.3,
+                "y": 2100
+              }
+            ],
+            "dirty": false
+          }
+        },
+        "f2ca6fcd-a52f-4d9e-98f0-931845008f8e": {
+          "id": "f2ca6fcd-a52f-4d9e-98f0-931845008f8e",
+          "type": "wall",
+          "visible": true,
+          "selected": false,
+          "prototype": "wall",
+          "vertices": [
+            "b495b26a-1bef-4c24-9e24-bdba969fca07",
+            "61116ef3-f9b9-41b9-a39b-7dc3bafd3709"
+          ],
+          "holes": [],
+          "properties": {
+            "thickness": {
+              "length": 228.6
+            },
+            "height": {
+              "length": 3048
+            },
+            "bearingType": false,
+            "color": "#ffffff",
+            "alignment": "right",
+            "materialType": "brickwork"
+          },
+          "outer_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "inner_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "geometry": {
+            "rawPolygon": [
+              {
+                "x": 12614.3,
+                "y": 2100
+              },
+              {
+                "x": 12385.725691982123,
+                "y": 2096.57279791241
+              },
+              {
+                "x": 12389.153279290675,
+                "y": 1867.9727979124098
+              },
+              {
+                "x": 12617.727587308551,
+                "y": 1871.3999999999996
+              }
+            ],
+            "cleanedPolygon": [
+              {
+                "x": 12614.3,
+                "y": 2100
+              },
+              {
+                "x": 12385.725691982123,
+                "y": 2096.57279791241
+              },
+              {
+                "x": 12389.153279290675,
+                "y": 1867.9727979124098
+              },
+              {
+                "x": 12617.727587308551,
+                "y": 1871.3999999999996
+              }
+            ],
+            "dirty": false
+          }
+        },
+        "55357362-1491-4774-bfb7-750a693df3a3": {
+          "id": "55357362-1491-4774-bfb7-750a693df3a3",
+          "type": "wall",
+          "visible": true,
+          "selected": false,
+          "prototype": "wall",
+          "vertices": [
+            "df79abed-a294-4f5f-9cdd-12e15332e13e",
+            "ea0f5864-272d-410f-b000-9d06fce8278a"
+          ],
+          "holes": [],
+          "properties": {
+            "thickness": {
+              "length": 228.6
+            },
+            "height": {
+              "length": 3048
+            },
+            "bearingType": false,
+            "color": "#b0bec5",
+            "alignment": "center",
+            "materialType": "brickwork"
+          },
+          "outer_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#b0bec5",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "inner_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#b0bec5",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "geometry": {
+            "rawPolygon": [
+              {
+                "x": 15653.7,
+                "y": 8697.9990234375
+              },
+              {
+                "x": 15882.3,
+                "y": 8697.9990234375
+              },
+              {
+                "x": 15882.3,
+                "y": 8831.999633789062
+              },
+              {
+                "x": 15653.7,
+                "y": 8831.999633789062
+              }
+            ],
+            "cleanedPolygon": [
+              {
+                "x": 15653.7,
+                "y": 5214.3
+              },
+              {
+                "x": 15882.3,
+                "y": 4985.7
+              },
+              {
+                "x": 15882.3,
+                "y": 8946.299633789062
+              },
+              {
+                "x": 15653.7,
+                "y": 8717.699633789063
+              }
+            ],
+            "dirty": false
+          }
+        },
+        "ee14cca5-6233-4c02-bff9-b6622d417a1d": {
+          "id": "ee14cca5-6233-4c02-bff9-b6622d417a1d",
+          "type": "wall",
+          "visible": true,
+          "selected": false,
+          "prototype": "wall",
+          "vertices": [
+            "ea0f5864-272d-410f-b000-9d06fce8278a",
+            "7edfe6a0-7e54-44dc-af8d-c81917466a59"
+          ],
+          "holes": [],
+          "properties": {
+            "thickness": {
+              "length": 228.6
+            },
+            "height": {
+              "length": 3048
+            },
+            "bearingType": false,
+            "color": "#b0bec5",
+            "alignment": "center",
+            "materialType": "brickwork"
+          },
+          "outer_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#b0bec5",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "inner_properties": {
+            "material": {
+              "code": "DEFAULT",
+              "color": "#b0bec5",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 0,
+              "repeatY": 0
+            }
+          },
+          "geometry": {
+            "rawPolygon": [
+              {
+                "x": 15653.7,
+                "y": 8697.9990234375
+              },
+              {
+                "x": 15882.3,
+                "y": 8697.9990234375
+              },
+              {
+                "x": 15882.3,
+                "y": 8831.999633789062
+              },
+              {
+                "x": 15653.7,
+                "y": 8831.999633789062
+              }
+            ],
+            "cleanedPolygon": [
+              {
+                "x": 15653.7,
+                "y": 5214.3
+              },
+              {
+                "x": 15882.3,
+                "y": 4985.7
+              },
+              {
+                "x": 15882.3,
+                "y": 8946.299633789062
+              },
+              {
+                "x": 15653.7,
+                "y": 8717.699633789063
+              }
+            ],
+            "dirty": false
+          }
+        }
+      },
+      "areas": {
+        "auto_243340857": {
+          "id": "auto_243340857",
+          "type": "area",
+          "visible": true,
+          "selected": false,
+          "prototype": "area",
+          "vertices": [
+            "7edfe6a0-7e54-44dc-af8d-c81917466a59",
+            "347fd5a6-4bb5-425e-ac7d-b6aa29e22f0a",
+            "d83740e0-de0d-4b6a-916d-a2f3757c4afa",
+            "824bba29-3452-4f48-a730-380799c8c63f",
+            "df79abed-a294-4f5f-9cdd-12e15332e13e",
+            "ea0f5864-272d-410f-b000-9d06fce8278a"
+          ],
+          "holes": [],
+          "properties": {
+            "height": {
+              "length": 2800
+            },
+            "type": "room",
+            "label": "Room 1",
+            "areaColor": "#281b1b"
+          },
+          "ceiling_properties": {
+            "isvisible": true,
+            "thickness": 152.4,
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 304.8,
+              "repeatY": 304.8
+            },
+            "materialType": "pcc"
+          },
+          "floor_properties": {
+            "isvisible": true,
+            "thickness": 20,
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 304.8,
+              "repeatY": 304.8,
+              "mapUrl": "textures/LowResolution/Wood/Wood%20floor%20/Wood091A_4K-PNG_LR_Color.jpg"
+            },
+            "materialType": "stone"
+          },
+          "geometry": {
+            "topologyPolygon": [
+              {
+                "id": "7edfe6a0-7e54-44dc-af8d-c81917466a59",
+                "x": 15768,
+                "y": 8831.999633789062,
+                "isJunction": false,
+                "junctionType": "l"
+              },
+              {
+                "id": "347fd5a6-4bb5-425e-ac7d-b6aa29e22f0a",
+                "x": 12614.3,
+                "y": 8831.999633789062,
+                "isJunction": false,
+                "junctionType": "l"
+              },
+              {
+                "id": "d83740e0-de0d-4b6a-916d-a2f3757c4afa",
+                "x": 12567.604745603443,
+                "y": 5214.3,
+                "isJunction": true,
+                "junctionType": "t"
+              },
+              {
+                "id": "824bba29-3452-4f48-a730-380799c8c63f",
+                "x": 12569.318539257723,
+                "y": 5100,
+                "isJunction": true,
+                "junctionType": "x"
+              },
+              {
+                "id": "df79abed-a294-4f5f-9cdd-12e15332e13e",
+                "x": 15768,
+                "y": 5100,
+                "isJunction": false,
+                "junctionType": "l"
+              },
+              {
+                "id": "ea0f5864-272d-410f-b000-9d06fce8278a",
+                "x": 15768,
+                "y": 8697.9990234375,
+                "isJunction": true,
+                "junctionType": "t"
+              }
+            ],
+            "innerPolygon": [
+              {
+                "x": 12727.134200097178,
+                "y": 8717.699633789063
+              },
+              {
+                "x": 12624.749985543112,
+                "y": 5213.562401031968
+              },
+              {
+                "x": 14157.5,
+                "y": 5214.3
+              },
+              {
+                "x": 14157.5,
+                "y": 5100
+              },
+              {
+                "x": 14970.5,
+                "y": 5100
+              },
+              {
+                "x": 14970.5,
+                "y": 5214.3
+              },
+              {
+                "x": 15653.7,
+                "y": 5214.3
+              },
+              {
+                "x": 15653.7,
+                "y": 8717.699633789063
+              }
+            ],
+            "outerPolygon": [
+              {
+                "x": 12501.46579990282,
+                "y": 8946.299633789062
+              },
+              {
+                "x": 12501.46579990282,
+                "y": 4985.7
+              },
+              {
+                "x": 14157.5,
+                "y": 4985.7
+              },
+              {
+                "x": 14157.5,
+                "y": 5100
+              },
+              {
+                "x": 14970.5,
+                "y": 5100
+              },
+              {
+                "x": 14970.5,
+                "y": 4985.7
+              },
+              {
+                "x": 15882.3,
+                "y": 4985.7
+              },
+              {
+                "x": 15882.3,
+                "y": 8946.299633789062
+              }
+            ]
+          }
+        },
+        "auto_1257460643": {
+          "id": "auto_1257460643",
+          "name": "Room 2",
+          "type": "area",
+          "prototype": "areas",
+          "vertices": [
+            "b495b26a-1bef-4c24-9e24-bdba969fca07",
+            "d510414d-8b02-416b-ae26-f0443a5c92bc",
+            "17d571e6-31ce-41e9-bd73-95220648006d",
+            "a70c914f-abec-43f9-a5f9-064e57bb4b60",
+            "ea0f5864-272d-410f-b000-9d06fce8278a",
+            "df79abed-a294-4f5f-9cdd-12e15332e13e",
+            "824bba29-3452-4f48-a730-380799c8c63f"
+          ],
+          "geometry": {
+            "topologyPolygon": [
+              {
+                "id": "b495b26a-1bef-4c24-9e24-bdba969fca07",
+                "x": 12614.3,
+                "y": 2100,
+                "isJunction": true,
+                "junctionType": "t"
+              },
+              {
+                "id": "d510414d-8b02-416b-ae26-f0443a5c92bc",
+                "x": 16068.000244140625,
+                "y": 2100,
+                "isJunction": false,
+                "junctionType": "l"
+              },
+              {
+                "id": "17d571e6-31ce-41e9-bd73-95220648006d",
+                "x": 18388.000244140625,
+                "y": 2100,
+                "isJunction": false,
+                "junctionType": "l"
+              },
+              {
+                "id": "a70c914f-abec-43f9-a5f9-064e57bb4b60",
+                "x": 18388.000244140625,
+                "y": 8714,
+                "isJunction": false,
+                "junctionType": "l"
+              },
+              {
+                "id": "ea0f5864-272d-410f-b000-9d06fce8278a",
+                "x": 15768,
+                "y": 8697.9990234375,
+                "isJunction": true,
+                "junctionType": "t"
+              },
+              {
+                "id": "df79abed-a294-4f5f-9cdd-12e15332e13e",
+                "x": 15768,
+                "y": 5100,
+                "isJunction": false,
+                "junctionType": "l"
+              },
+              {
+                "id": "824bba29-3452-4f48-a730-380799c8c63f",
+                "x": 12569.318539257723,
+                "y": 5100,
+                "isJunction": true,
+                "junctionType": "x"
+              }
+            ],
+            "innerPolygon": [
+              {
+                "x": 18388.000244140625,
+                "y": 2100
+              },
+              {
+                "x": 18388.000244140625,
+                "y": 8703.103732464193
+              },
+              {
+                "x": 15882.3,
+                "y": 8698.6970812431
+              },
+              {
+                "x": 15882.3,
+                "y": 4985.7
+              },
+              {
+                "x": 14970.5,
+                "y": 4985.7
+              },
+              {
+                "x": 14970.5,
+                "y": 5100
+              },
+              {
+                "x": 14157.5,
+                "y": 5100
+              },
+              {
+                "x": 14157.5,
+                "y": 4985.7
+              },
+              {
+                "x": 12571.032332912004,
+                "y": 4985.7
+              },
+              {
+                "x": 12614.3,
+                "y": 2100
+              }
+            ],
+            "outerPolygon": [
+              {
+                "x": 18616.600244140624,
+                "y": 1871.4
+              },
+              {
+                "x": 18616.600244140624,
+                "y": 8931.699469375224
+              },
+              {
+                "x": 16602.449075496872,
+                "y": 8931.699469375224
+              },
+              {
+                "x": 16603.84516507235,
+                "y": 8703.103732464193
+              },
+              {
+                "x": 15790.860326451757,
+                "y": 8698.13863699234
+              },
+              {
+                "x": 15789.464236876276,
+                "y": 8926.734373903371
+              },
+              {
+                "x": 15653.7,
+                "y": 8925.905228800373
+              },
+              {
+                "x": 15653.7,
+                "y": 5214.3
+              },
+              {
+                "x": 14970.5,
+                "y": 5214.3
+              },
+              {
+                "x": 14970.5,
+                "y": 5100
+              },
+              {
+                "x": 14157.5,
+                "y": 5100
+              },
+              {
+                "x": 14157.5,
+                "y": 5214.3
+              },
+              {
+                "x": 12338.979050733513,
+                "y": 5214.3
+              },
+              {
+                "x": 12389.101892438632,
+                "y": 1871.3999999999996
+              }
+            ]
+          },
+          "holes": [],
+          "visible": true,
+          "selected": false,
+          "misc": {},
+          "properties": {
+            "height": {
+              "length": 3048
+            },
+            "type": "room",
+            "label": "Room",
+            "areaColor": "#1d3022"
+          },
+          "ceiling_properties": {
+            "isvisible": true,
+            "thickness": 152.4,
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 304.8,
+              "repeatY": 304.8
+            },
+            "materialType": "pcc"
+          },
+          "floor_properties": {
+            "isvisible": true,
+            "thickness": 20,
+            "material": {
+              "code": "DEFAULT",
+              "color": "#ffffff",
+              "roughness": 0.8,
+              "metalness": 0,
+              "repeatX": 304.8,
+              "repeatY": 304.8,
+              "mapUrl": "textures/LowResolution/Wood/Wood floor /Wood091A_4K-PNG_LR_Color.jpg"
+            },
+            "materialType": "stone"
+          }
+        }
+      },
+      "items": {},
+      "holes": {
+        "1ba3c29c-1b72-4f8d-b7e4-f90f89be85e2": {
+          "wallId": "ebb1afa3-b79e-4704-8c78-44bf16e7fd8a",
+          "offset": 2190.6883518315335,
+          "valid": true,
+          "type": "door",
+          "width": 813,
+          "height": 2133.6,
+          "thickness": 228.6,
+          "angle": -3.1354854871245443,
+          "wallLen": 2620.049104606226,
+          "altitude": 2090.928,
+          "assetId": "6",
+          "name": "Single Door",
+          "asset_urls": {
+            "SVG_URL": "https://zrealtystoragedev.blob.core.windows.net/asset-library/Doors/Door/Svg_Door.svg",
+            "GLB_File_URL": "glb-assets/Door/Default_Door/Closed_Door/DoorClosed_LP.glb",
+            "thumbnail_url": "https://zrealtystoragedev.blob.core.windows.net/asset-library/Doors/Door/Thumbnail_Door.webp"
+          },
+          "line": "ebb1afa3-b79e-4704-8c78-44bf16e7fd8a",
+          "flipX": false,
+          "flipZ": false,
+          "properties": {
+            "width": {
+              "length": 813
+            },
+            "height": {
+              "length": 2133.6
+            },
+            "altitude": {
+              "length": 0
+            },
+            "thickness": {
+              "length": 228.6
+            }
+          },
+          "id": "1ba3c29c-1b72-4f8d-b7e4-f90f89be85e2"
+        },
+        "6ac24318-1bb6-4b2f-99c8-9d37d3705730": {
+          "wallId": "cd705fda-91ca-4ce4-aca6-3babbe8bf483",
+          "offset": 1994.6814607422768,
+          "valid": true,
+          "type": "door",
+          "width": 813,
+          "height": 2133.6,
+          "thickness": 228.6,
+          "angle": 0,
+          "wallLen": 3198.6814607422766,
+          "altitude": 2090.928,
+          "assetId": "6",
+          "name": "Single Door",
+          "asset_urls": {
+            "SVG_URL": "https://zrealtystoragedev.blob.core.windows.net/asset-library/Doors/Door/Svg_Door.svg",
+            "GLB_File_URL": "glb-assets/Door/Default_Door/Closed_Door/DoorClosed_LP.glb",
+            "thumbnail_url": "https://zrealtystoragedev.blob.core.windows.net/asset-library/Doors/Door/Thumbnail_Door.webp"
+          },
+          "line": "cd705fda-91ca-4ce4-aca6-3babbe8bf483",
+          "flipX": false,
+          "flipZ": false,
+          "properties": {
+            "width": {
+              "length": 813
+            },
+            "height": {
+              "length": 2133.6
+            },
+            "altitude": {
+              "length": 0
+            },
+            "thickness": {
+              "length": 228.6
+            }
+          },
+          "id": "6ac24318-1bb6-4b2f-99c8-9d37d3705730"
+        },
+        "fe0b1a89-6bd3-4103-bd18-2845910898d8": {
+          "wallId": "c03981f1-11c2-4af1-8279-fdeaafed3e89",
+          "offset": 1206.0001220703134,
+          "valid": true,
+          "type": "window",
+          "width": 1120,
+          "height": 1219.2,
+          "thickness": 228.6,
+          "angle": 1.5707963267948966,
+          "wallLen": 6614,
+          "altitude": 914.4,
+          "assetId": "106",
+          "name": "Bedroom Window",
+          "asset_urls": {
+            "SVG_URL": "https://zrealtystoragedev.blob.core.windows.net/asset-library/Windows/Bedroom_Window/BedroomWindow.svg",
+            "GLB_File_URL": "glb-assets/Window/Windows/BedroomWindow_LP.glb",
+            "thumbnail_url": null
+          },
+          "line": "c03981f1-11c2-4af1-8279-fdeaafed3e89",
+          "flipX": false,
+          "flipZ": false,
+          "properties": {
+            "width": {
+              "length": 1120
+            },
+            "height": {
+              "length": 1219.2
+            },
+            "altitude": {
+              "length": 900
+            },
+            "thickness": {
+              "length": 228.6
+            }
+          },
+          "id": "fe0b1a89-6bd3-4103-bd18-2845910898d8"
+        },
+        "b414d4ca-fa6b-46b5-9a02-5115f64679e1": {
+          "wallId": "741e0f6b-fffb-4fbc-a8b8-d2800d19759f",
+          "offset": 2033.3165303711764,
+          "valid": true,
+          "type": "window",
+          "width": 1120,
+          "height": 1219.2,
+          "thickness": 228.6,
+          "angle": -1.5837030537779142,
+          "wallLen": 3618.0009794222938,
+          "altitude": 914.4,
+          "assetId": "106",
+          "name": "Bedroom Window",
+          "asset_urls": {
+            "SVG_URL": "https://zrealtystoragedev.blob.core.windows.net/asset-library/Windows/Bedroom_Window/BedroomWindow.svg",
+            "GLB_File_URL": "glb-assets/Window/Windows/BedroomWindow_LP.glb",
+            "thumbnail_url": null
+          },
+          "line": "741e0f6b-fffb-4fbc-a8b8-d2800d19759f",
+          "flipX": false,
+          "flipZ": false,
+          "properties": {
+            "width": {
+              "length": 1120
+            },
+            "height": {
+              "length": 1219.2
+            },
+            "altitude": {
+              "length": 900
+            },
+            "thickness": {
+              "length": 228.6
+            }
+          },
+          "id": "b414d4ca-fa6b-46b5-9a02-5115f64679e1"
+        },
+        "6f578775-4274-4d37-9c76-55ab72fd229c": {
+          "wallId": "c03981f1-11c2-4af1-8279-fdeaafed3e89",
+          "offset": 4421.999877929688,
+          "valid": true,
+          "type": "window",
+          "width": 1120,
+          "height": 1219.2,
+          "thickness": 228.6,
+          "angle": 1.5707963267948966,
+          "wallLen": 6614,
+          "altitude": 914.4,
+          "assetId": "106",
+          "name": "Bedroom Window",
+          "asset_urls": {
+            "SVG_URL": "https://zrealtystoragedev.blob.core.windows.net/asset-library/Windows/Bedroom_Window/BedroomWindow.svg",
+            "GLB_File_URL": "glb-assets/Window/Windows/BedroomWindow_LP.glb",
+            "thumbnail_url": null
+          },
+          "line": "c03981f1-11c2-4af1-8279-fdeaafed3e89",
+          "flipX": false,
+          "flipZ": false,
+          "properties": {
+            "width": {
+              "length": 1120
+            },
+            "height": {
+              "length": 1219.2
+            },
+            "altitude": {
+              "length": 900
+            },
+            "thickness": {
+              "length": 228.6
+            }
+          },
+          "id": "6f578775-4274-4d37-9c76-55ab72fd229c"
+        }
+      },
+      "order": 0,
+      "opacity": 1,
+      "externalAreas": {},
+      "structures": {},
+      "groups": {},
+      "electricalPlan": {
+        "electricalSymbols": {},
+        "electricalWires": {}
+      },
+      "sceneLights": {}
+    }
+  },
+  "directionangle": 0,
+  "version": "2.0.0"
+}

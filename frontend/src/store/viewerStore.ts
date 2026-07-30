@@ -173,11 +173,11 @@ export const useViewerStore = create<ViewerStore>((set, get) => ({
   setProject: (id, filename, data) => set({
     projectId: id,
     filename,
-    metadata: data.metadata || defaultMetadata,
-    walls: data.walls || [],
-    doors: data.doors || [],
-    windows: data.windows || [],
-    rooms: data.rooms || [],
+    metadata: data?.metadata || defaultMetadata,
+    walls: data?.walls || [],
+    doors: data?.doors || [],
+    windows: data?.windows || [],
+    rooms: data?.rooms || [],
     selectedId: null,
     undoStack: [],
     redoStack: []

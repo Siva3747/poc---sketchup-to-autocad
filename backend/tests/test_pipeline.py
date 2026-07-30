@@ -64,6 +64,23 @@ def test_geometry_merging():
     assert merged[1][0] == (250.0, 100.0)
     assert merged[1][1] == (300.0, 100.0)
 
+def test_gap_based_door_detection():
+    """Tests that a simple gap between colinear walls is inferred as a door opening."""
+    raw = {
+        "metadata": {"unit": "mm"},
+        "walls": [
+            {"id": "w1", "start": {"x": 0, "y": 0}, "end": {"x": 1000, "y": 0}, "thickness": 200, "height": 2800, "layer": "Walls"},
+            {"id": "w2", "start": {"x": 1400, "y": 0}, "end": {"x": 3000, "y": 0}, "thickness": 200, "height": 2800, "layer": "Walls"}
+        ],
+        "doors": [],
+        "windows": [],
+        "rooms": []
+    }
+    result = detect_architectural_elements(raw)
+    assert len(result["doors"]) == 1
+    assert result["doors"][0]["width"] == 400
+    assert result["doors"][0]["wallId"] in {"w1", "w2"}
+
 def test_dxf_generation():
     """Tests that DXF file generation executes without throwing exceptions and saves the output."""
     data = generate_mock_floorplan("sample.skp")
@@ -95,3 +112,23 @@ def test_database_crud(db_session):
     
     db_proj_updated = db_session.query(Project).filter(Project.id == "test-uuid-123").first()
     assert db_proj_updated.status == "COMPLETED"
+
+def test_dynamic_mock_generation():
+    """Tests that mock generation outputs different, filename-dependent layouts."""
+    data_res = generate_mock_floorplan("residential_villa.skp")
+    data_off = generate_mock_floorplan("commercial_office.skp")
+    
+    # Verify name metadata
+    assert data_res["metadata"]["name"] == "residential_villa.skp"
+    assert data_off["metadata"]["name"] == "commercial_office.skp"
+    
+    # Verify that different seeds lead to different structures
+    assert data_res != data_off
+    
+    # Check that office filenames yield office-like room names
+    office_room_names = [r["name"] for r in data_off["rooms"]]
+    assert any(any(k in name.lower() for k in ["office", "reception", "restroom", "pantry", "breakroom", "conference"]) for name in office_room_names)
+    
+    # Check that residential filenames yield residential-like room names
+    res_room_names = [r["name"] for r in data_res["rooms"]]
+    assert any(any(k in name.lower() for k in ["living", "bedroom", "kitchen", "bathroom"]) for name in res_room_names)

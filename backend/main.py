@@ -1,6 +1,15 @@
+import os
+import sys
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+# Ensure the repository root is on sys.path so 'backend' imports work when running
+# this file directly as a script from the repo root.
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+
 from backend.utils.config import settings
 from backend.utils.logger import logger
 from backend.models.database import init_db

@@ -1,4 +1,5 @@
 import os
+import json
 from fastapi import APIRouter, Depends, UploadFile, File, HTTPException, Query
 from fastapi.responses import FileResponse, PlainTextResponse
 from sqlalchemy.orm import Session
@@ -14,6 +15,7 @@ from backend.geometry.detector import detect_architectural_elements
 from backend.json_builder.builder import validate_and_format_json
 from backend.dxf_generator.generator import generate_dxf_file
 from backend.dwg_converter.converter import convert_dxf_to_dwg
+from backend.parser.convert_floorplan_to_skpjson import convert_floorplan_dict
 
 router = APIRouter()
 
@@ -165,13 +167,11 @@ def get_viewer_data(project_id: str, db: Session = Depends(get_db)):
         
     # Check if conversion has completed or is in progress
     if project.status == "FAILED":
-        return {
-            "id": project.id,
-            "filename": project.filename,
-            "status": project.status,
-            "error": project.error_message,
-            "floorplan": None
-        }
+        raise HTTPException(
+            status_code=400,
+            detail=f"Project conversion failed: {project.error_message or 'Unknown error'}"
+        )
+
         
     if not project.json_path or not os.path.exists(project.json_path):
         # Trigger processing if somehow missing
@@ -269,6 +269,90 @@ def get_sketchup_exporter_ruby_script():
     Downloads the SketchUp Ruby script extension that users can run inside SketchUp to export JSON directly.
     """
     return RUBY_EXPORTER_SCRIPT
+
+
+@router.post("/upload-floorplan-json", response_model=Dict[str, Any])
+def upload_floorplan_json(file: UploadFile = File(...), db: Session = Depends(get_db)):
+    """
+    POST /upload-floorplan-json
+    Accepts the editor/workspace floorplan JSON (layers/areas/lines), converts it to the
+    SketchUp-exporter-compatible schema, saves the project JSON and generates DXF (and DWG if available).
+    """
+    logger.info(f"Received floorplan JSON upload: {file.filename}")
+    try:
+        raw = file.file.read()
+        payload = json.loads(raw.decode("utf-8"))
+    except Exception as e:
+        logger.error(f"Failed to read uploaded JSON: {e}")
+        raise HTTPException(status_code=400, detail="Invalid JSON upload")
+
+    # Convert to internal skp-like schema
+    try:
+        converted = convert_floorplan_dict(payload)
+    except Exception as e:
+        logger.error(f"Conversion failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Conversion failed: {str(e)}")
+
+    # Create DB project record and save files
+    import uuid
+    project_id = str(uuid.uuid4())
+    original_filename = f"{project_id}.json"
+    original_path = os.path.join(settings.UPLOAD_DIR, original_filename)
+    os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+    with open(original_path, "wb") as f:
+        f.write(raw)
+
+    project = Project(id=project_id, filename=file.filename, original_file_path=original_path, status="UPLOADED")
+    db.add(project)
+    db.commit()
+    db.refresh(project)
+
+    # Save converted JSON
+    json_path = os.path.join(settings.UPLOAD_DIR, f"{project_id}.json")
+    try:
+        with open(json_path, "w", encoding="utf-8") as jf:
+            import json as _json
+            _json.dump(converted, jf, indent=2)
+        project.json_path = json_path
+        db.commit()
+    except Exception as e:
+        logger.error(f"Failed to save converted JSON: {e}")
+        raise HTTPException(status_code=500, detail="Failed to save converted JSON")
+
+    # Generate DXF
+    try:
+        dxf_path = os.path.join(settings.UPLOAD_DIR, f"{project_id}.dxf")
+        generate_dxf_file(converted, dxf_path)
+        project.dxf_path = dxf_path
+        db.commit()
+    except Exception as e:
+        logger.error(f"DXF generation failed: {e}")
+        raise HTTPException(status_code=500, detail=f"DXF generation failed: {str(e)}")
+
+    # Attempt DWG conversion (may be skipped if ODA converter missing)
+    try:
+        dwg_path = os.path.join(settings.UPLOAD_DIR, f"{project_id}.dwg")
+        convert_dxf_to_dwg(project.dxf_path, dwg_path)
+        project.dwg_path = dwg_path
+        db.commit()
+    except FileNotFoundError:
+        logger.warning("DWG converter not available; DWG will not be produced.")
+        project.dwg_path = None
+        db.commit()
+    except Exception as e:
+        logger.warning(f"DWG conversion failed: {e}")
+        project.dwg_path = None
+        db.commit()
+
+    project.status = "COMPLETED"
+    db.commit()
+
+    return {
+        "project_id": project_id,
+        "json_path": project.json_path,
+        "dxf_path": project.dxf_path,
+        "dwg_path": project.dwg_path
+    }
 
 @router.get("/projects", response_model=List[Dict[str, Any]])
 def list_projects(db: Session = Depends(get_db)):

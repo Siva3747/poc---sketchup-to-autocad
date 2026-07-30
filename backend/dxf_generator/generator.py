@@ -232,17 +232,38 @@ def generate_dxf_file(floorplan_data: Dict[str, Any], output_path: str) -> str:
     # 4. DRAW ROOM NAMES & LABELS
     for r in rooms:
         name = r.get("name", "Room")
-        area = r.get("area", 0.0)
+        area = r.get("area")
         points = r.get("points", [])
         if not points:
             continue
+            
+        if area is None:
+            # Calculate area using Shoelace formula from coordinates (mm to sq meters)
+            try:
+                area_val = 0.0
+                if len(points) >= 3:
+                    n = len(points)
+                    for i in range(n):
+                        j = (i + 1) % n
+                        area_val += points[i]["x"] * points[j]["y"]
+                        area_val -= points[j]["x"] * points[i]["y"]
+                    area = abs(area_val) / 2.0 / 1000000.0
+                else:
+                    area = 0.0
+            except Exception:
+                area = 0.0
+                
+        try:
+            area_float = float(area)
+        except Exception:
+            area_float = 0.0
             
         # Calculate centroid of points to place the text label
         cx = sum(p["x"] for p in points) / len(points)
         cy = sum(p["y"] for p in points) / len(points)
         
         # Label text showing room name and its area
-        label = f"{name}\\P{area:.1f} m2" # \\P creates a new line in AutoCAD MTEXT
+        label = f"{name}\\P{area_float:.1f} m2" # \\P creates a new line in AutoCAD MTEXT
         
         # Add MText (multi-line text) for clean alignment
         mtext = msp.add_mtext(

@@ -37,7 +37,7 @@ def parse_skp_file(file_path: str) -> Dict[str, Any]:
     """
     logger.info(f"Attempting to parse file: {file_path}")
     
-    # Check if the file is already a JSON (e.g. exported from SketchUp Ruby Plugin)
+    # Check if the file is already a JSON (e.g. exported from SketchUp Ruby Plugin or workspace floorplan)
     if file_path.lower().endswith(".json"):
         try:
             with open(file_path, "r", encoding="utf-8") as f:
@@ -45,6 +45,11 @@ def parse_skp_file(file_path: str) -> Dict[str, Any]:
                 if "raw_geometry" in data or "walls" in data:
                     logger.info("Successfully loaded pre-exported SketchUp JSON model.")
                     return data
+                elif "layers" in data:
+                    logger.info("Detected workspace-format floorplan JSON. Converting to internal schema...")
+                    from backend.parser.convert_floorplan_to_skpjson import convert_floorplan_dict
+                    converted = convert_floorplan_dict(data)
+                    return converted
         except Exception as e:
             logger.error(f"Failed to read JSON file: {e}")
             raise ValueError(f"Invalid JSON file format: {e}")
@@ -132,203 +137,452 @@ def generate_mock_floorplan(filename: str) -> Dict[str, Any]:
     """
     Generates a highly-detailed, beautiful, and valid mock architectural 2D floor plan JSON.
     This enables full visualization, editing, and CAD exports out-of-the-box.
+    Deterministic based on the hash of the filename to provide unique plans for different files.
     """
-    # Define a default 4-room layout: Living Room, Bedroom, Kitchen, Bathroom.
-    # Coordinates are in millimeters (mm). Floor plan size: 10m x 8m.
-    # Base layout coordinates:
-    # (0,0) ----------- (6000, 0) ------- (10000, 0)
-    #   |                 |                    |
-    #   |   Living Room   |     Kitchen        |
-    #   |                 |                    |
-    # (0,4500) --------- (6000, 4500) -- (10000, 4500)
-    #   |                 |                    |
-    #   |    Bedroom      |     Bathroom       |
-    #   |                 |                    |
-    # (0,8000) --------- (6000, 8000) --- (10000, 8000)
+    import random
+    import hashlib
     
-    # Define wall segments as (x1, y1) to (x2, y2)
-    # Centroid lines of the walls.
-    wall_segments = [
-        # Outer boundary
-        {"id": "w_outer_top", "start": {"x": 0, "y": 0}, "end": {"x": 10000, "y": 0}, "thickness": 250},
-        {"id": "w_outer_right", "start": {"x": 10000, "y": 0}, "end": {"x": 10000, "y": 8000}, "thickness": 250},
-        {"id": "w_outer_bottom", "start": {"x": 10000, "y": 8000}, "end": {"x": 0, "y": 8000}, "thickness": 250},
-        {"id": "w_outer_left", "start": {"x": 0, "y": 8000}, "end": {"x": 0, "y": 0}, "thickness": 250},
-        
-        # Interior dividers
-        {"id": "w_div_vertical", "start": {"x": 6000, "y": 0}, "end": {"x": 6000, "y": 8000}, "thickness": 150},
-        {"id": "w_div_horiz_left", "start": {"x": 0, "y": 4500}, "end": {"x": 6000, "y": 4500}, "thickness": 150},
-        {"id": "w_div_horiz_right", "start": {"x": 6000, "y": 4500}, "end": {"x": 10000, "y": 4500}, "thickness": 150}
-    ]
+    # Generate seed from filename
+    h = hashlib.md5(filename.encode("utf-8")).hexdigest()
+    seed = int(h, 16) % (2**32)
+    rng = random.Random(seed)
     
-    # We populate default thickness and height
+    # Determine classification: residential vs commercial/office
+    lower_name = filename.lower()
+    is_office = any(k in lower_name for k in ["office", "work", "commercial", "corp", "hq", "business", "meeting", "lab"])
+    
+    # Select layout style: 0 (Studio), 1 (3-Room), 2 (4-Room Layout)
+    style = rng.choice([0, 1, 2])
+    
     walls = []
-    for ws in wall_segments:
-        walls.append({
-            "id": ws["id"],
-            "start": ws["start"],
-            "end": ws["end"],
-            "thickness": ws["thickness"],
-            "height": 2800,
-            "layer": "Walls"
-        })
-        
-    # Place doors in walls. Position is ratio from start to end (0.0 to 1.0)
-    doors = [
-        # Main entrance door at the bottom of living room (left outer wall, or bottom outer wall)
-        {
-            "id": "d_main",
-            "wallId": "w_outer_bottom",
-            "position": 0.25, # at x=2500
-            "width": 900,
-            "height": 2100,
-            "hand": "left",
-            "direction": "in",
-            "layer": "Doors"
-        },
-        # Door between living room and bedroom
-        {
-            "id": "d_bedroom",
-            "wallId": "w_div_horiz_left",
-            "position": 0.3, # at x=1800
-            "width": 850,
-            "height": 2100,
-            "hand": "left",
-            "direction": "in",
-            "layer": "Doors"
-        },
-        # Door between kitchen and bathroom
-        {
-            "id": "d_bathroom",
-            "wallId": "w_div_horiz_right",
-            "position": 0.4, # at x=7600 (distance along w_div_horiz_right)
-            "width": 750,
-            "height": 2100,
-            "hand": "right",
-            "direction": "in",
-            "layer": "Doors"
-        },
-        # Opening/door from Living Room to Kitchen
-        {
-            "id": "d_kitchen",
-            "wallId": "w_div_vertical",
-            "position": 0.3, # at y=2400
-            "width": 1000,
-            "height": 2100,
-            "hand": "left",
-            "direction": "in",
-            "layer": "Doors"
-        }
-    ]
-    
-    # Place windows in walls
-    windows = [
-        {
-            "id": "win_living",
-            "wallId": "w_outer_top",
-            "position": 0.3, # x = 3000
-            "width": 1500,
-            "height": 1200,
-            "elevation": 900,
-            "layer": "Windows"
-        },
-        {
-            "id": "win_bedroom",
-            "wallId": "w_outer_left",
-            "position": 0.8, # y = 6400 (along outer left, measuring from (0,8000) to (0,0) - wait, start is (0,8000) end is (0,0))
-            "width": 1200,
-            "height": 1200,
-            "elevation": 900,
-            "layer": "Windows"
-        },
-        {
-            "id": "win_kitchen",
-            "wallId": "w_outer_right",
-            "position": 0.25, # y = 2000 (start is (10000,0) end is (10000,8000))
-            "width": 1200,
-            "height": 1200,
-            "elevation": 900,
-            "layer": "Windows"
-        },
-        {
-            "id": "win_bathroom",
-            "wallId": "w_outer_right",
-            "position": 0.8, # y = 6400
-            "width": 600,
-            "height": 600,
-            "elevation": 1500,
-            "layer": "Windows"
-        }
-    ]
-    
-    # Rooms defined by the coordinate polygons of their inner boundaries
-    rooms = [
-        {
-            "id": "room_living",
-            "name": "Living Room",
-            "points": [
-                {"x": 0, "y": 0},
-                {"x": 6000, "y": 0},
-                {"x": 6000, "y": 4500},
-                {"x": 0, "y": 4500}
-            ],
-            "area": 27.0, # 6m * 4.5m
-            "layer": "Rooms"
-        },
-        {
-            "id": "room_bedroom",
-            "name": "Bedroom",
-            "points": [
-                {"x": 0, "y": 4500},
-                {"x": 6000, "y": 4500},
-                {"x": 6000, "y": 8000},
-                {"x": 0, "y": 8000}
-            ],
-            "area": 21.0, # 6m * 3.5m
-            "layer": "Rooms"
-        },
-        {
-            "id": "room_kitchen",
-            "name": "Kitchen",
-            "points": [
-                {"x": 6000, "y": 0},
-                {"x": 10000, "y": 0},
-                {"x": 10000, "y": 4500},
-                {"x": 6000, "y": 4500}
-            ],
-            "area": 18.0, # 4m * 4.5m
-            "layer": "Rooms"
-        },
-        {
-            "id": "room_bathroom",
-            "name": "Bathroom",
-            "points": [
-                {"x": 6000, "y": 4500},
-                {"x": 10000, "y": 4500},
-                {"x": 10000, "y": 8000},
-                {"x": 6000, "y": 8000}
-            ],
-            "area": 14.0, # 4m * 3.5m
-            "layer": "Rooms"
-        }
-    ]
-    
-    # Generate some raw faces to simulate openskp parser output if needed by downstreams
-    # Project these to raw faces of the walls
+    doors = []
+    windows = []
+    rooms = []
     raw_faces = []
-    # E.g., outer top wall
+    
+    if style == 0:
+        # Style 0: Studio / Simple Office Space
+        # Width: 7m to 9m, Height: 5m to 7m
+        W = rng.randint(7000, 9000)
+        H = rng.randint(5000, 7000)
+        
+        # Division line: vertical divider at X = W * 0.65
+        div_x = int(W * 0.65)
+        
+        # Define walls
+        wall_segments = [
+            {"id": "w_outer_top", "start": {"x": 0, "y": 0}, "end": {"x": W, "y": 0}, "thickness": 250},
+            {"id": "w_outer_right", "start": {"x": W, "y": 0}, "end": {"x": W, "y": H}, "thickness": 250},
+            {"id": "w_outer_bottom", "start": {"x": W, "y": H}, "end": {"x": 0, "y": H}, "thickness": 250},
+            {"id": "w_outer_left", "start": {"x": 0, "y": H}, "end": {"x": 0, "y": 0}, "thickness": 250},
+            {"id": "w_div_vertical", "start": {"x": div_x, "y": 0}, "end": {"x": div_x, "y": H}, "thickness": 150}
+        ]
+        
+        for ws in wall_segments:
+            walls.append({
+                "id": ws["id"],
+                "start": ws["start"],
+                "end": ws["end"],
+                "thickness": ws["thickness"],
+                "height": 2800,
+                "layer": "Walls"
+            })
+            
+        # Place doors
+        doors.extend([
+            {
+                "id": "d_main",
+                "wallId": "w_outer_bottom",
+                "position": 0.25,
+                "width": 900,
+                "height": 2100,
+                "hand": "left",
+                "direction": "in",
+                "layer": "Doors"
+            },
+            {
+                "id": "d_bathroom",
+                "wallId": "w_div_vertical",
+                "position": 0.5,
+                "width": 800,
+                "height": 2100,
+                "hand": "right",
+                "direction": "in",
+                "layer": "Doors"
+            }
+        ])
+        
+        # Place windows
+        windows.extend([
+            {
+                "id": "win_main",
+                "wallId": "w_outer_top",
+                "position": 0.3,
+                "width": 1500,
+                "height": 1200,
+                "elevation": 900,
+                "layer": "Windows"
+            },
+            {
+                "id": "win_bath",
+                "wallId": "w_outer_right",
+                "position": 0.5,
+                "width": 600,
+                "height": 600,
+                "elevation": 1500,
+                "layer": "Windows"
+            }
+        ])
+        
+        # Room names
+        r1_name = "Work Space" if is_office else "Living Space"
+        r2_name = "Restroom" if is_office else "Bathroom"
+        
+        rooms.extend([
+            {
+                "id": "room_main",
+                "name": r1_name,
+                "points": [
+                    {"x": 0, "y": 0},
+                    {"x": div_x, "y": 0},
+                    {"x": div_x, "y": H},
+                    {"x": 0, "y": H}
+                ],
+                "area": round((div_x * H) / 1000000.0, 1),
+                "layer": "Rooms"
+            },
+            {
+                "id": "room_bath",
+                "name": r2_name,
+                "points": [
+                    {"x": div_x, "y": 0},
+                    {"x": W, "y": 0},
+                    {"x": W, "y": H},
+                    {"x": div_x, "y": H}
+                ],
+                "area": round(((W - div_x) * H) / 1000000.0, 1),
+                "layer": "Rooms"
+            }
+        ])
+        
+    elif style == 1:
+        # Style 1: 3-Room Apartment / Commercial suite
+        # Width: 9m to 12m, Height: 7m to 9m
+        W = rng.randint(9000, 12000)
+        H = rng.randint(7000, 9000)
+        
+        div_x = int(W * 0.6)
+        div_y = int(H * 0.5)
+        
+        wall_segments = [
+            {"id": "w_outer_top", "start": {"x": 0, "y": 0}, "end": {"x": W, "y": 0}, "thickness": 250},
+            {"id": "w_outer_right", "start": {"x": W, "y": 0}, "end": {"x": W, "y": H}, "thickness": 250},
+            {"id": "w_outer_bottom", "start": {"x": W, "y": H}, "end": {"x": 0, "y": H}, "thickness": 250},
+            {"id": "w_outer_left", "start": {"x": 0, "y": H}, "end": {"x": 0, "y": 0}, "thickness": 250},
+            {"id": "w_div_vertical", "start": {"x": div_x, "y": 0}, "end": {"x": div_x, "y": H}, "thickness": 150},
+            {"id": "w_div_horizontal", "start": {"x": div_x, "y": div_y}, "end": {"x": W, "y": div_y}, "thickness": 150}
+        ]
+        
+        for ws in wall_segments:
+            walls.append({
+                "id": ws["id"],
+                "start": ws["start"],
+                "end": ws["end"],
+                "thickness": ws["thickness"],
+                "height": 2800,
+                "layer": "Walls"
+            })
+            
+        doors.extend([
+            {
+                "id": "d_main",
+                "wallId": "w_outer_bottom",
+                "position": 0.25,
+                "width": 900,
+                "height": 2100,
+                "hand": "left",
+                "direction": "in",
+                "layer": "Doors"
+            },
+            {
+                "id": "d_room_top",
+                "wallId": "w_div_vertical",
+                "position": 0.25,
+                "width": 850,
+                "height": 2100,
+                "hand": "left",
+                "direction": "in",
+                "layer": "Doors"
+            },
+            {
+                "id": "d_room_bottom",
+                "wallId": "w_div_vertical",
+                "position": 0.75,
+                "width": 800,
+                "height": 2100,
+                "hand": "right",
+                "direction": "in",
+                "layer": "Doors"
+            }
+        ])
+        
+        windows.extend([
+            {
+                "id": "win_living",
+                "wallId": "w_outer_left",
+                "position": 0.5,
+                "width": 1500,
+                "height": 1200,
+                "elevation": 900,
+                "layer": "Windows"
+            },
+            {
+                "id": "win_top",
+                "wallId": "w_outer_top",
+                "position": 0.8,
+                "width": 1200,
+                "height": 1200,
+                "elevation": 900,
+                "layer": "Windows"
+            },
+            {
+                "id": "win_bottom",
+                "wallId": "w_outer_right",
+                "position": 0.75,
+                "width": 600,
+                "height": 600,
+                "elevation": 1500,
+                "layer": "Windows"
+            }
+        ])
+        
+        # Room names
+        r1_name = "Reception / Lobby" if is_office else "Living Room"
+        r2_name = "Office Suite" if is_office else "Bedroom"
+        r3_name = "Conference Room" if is_office else "Kitchen"
+        
+        rooms.extend([
+            {
+                "id": "room_1",
+                "name": r1_name,
+                "points": [
+                    {"x": 0, "y": 0},
+                    {"x": div_x, "y": 0},
+                    {"x": div_x, "y": H},
+                    {"x": 0, "y": H}
+                ],
+                "area": round((div_x * H) / 1000000.0, 1),
+                "layer": "Rooms"
+            },
+            {
+                "id": "room_2",
+                "name": r2_name,
+                "points": [
+                    {"x": div_x, "y": 0},
+                    {"x": W, "y": 0},
+                    {"x": W, "y": div_y},
+                    {"x": div_x, "y": div_y}
+                ],
+                "area": round(((W - div_x) * div_y) / 1000000.0, 1),
+                "layer": "Rooms"
+            },
+            {
+                "id": "room_3",
+                "name": r3_name,
+                "points": [
+                    {"x": div_x, "y": div_y},
+                    {"x": W, "y": div_y},
+                    {"x": W, "y": H},
+                    {"x": div_x, "y": H}
+                ],
+                "area": round(((W - div_x) * (H - div_y)) / 1000000.0, 1),
+                "layer": "Rooms"
+            }
+        ])
+        
+    else:
+        # Style 2: 4-Room Layout (similar to original, but randomized dimensions)
+        # Width: 10m to 14m, Height: 8m to 11m
+        W = rng.randint(10000, 14000)
+        H = rng.randint(8000, 11000)
+        
+        div_x = int(W * rng.uniform(0.55, 0.65))
+        div_y_left = int(H * rng.uniform(0.5, 0.6))
+        div_y_right = int(H * rng.uniform(0.45, 0.55))
+        
+        wall_segments = [
+            {"id": "w_outer_top", "start": {"x": 0, "y": 0}, "end": {"x": W, "y": 0}, "thickness": 250},
+            {"id": "w_outer_right", "start": {"x": W, "y": 0}, "end": {"x": W, "y": H}, "thickness": 250},
+            {"id": "w_outer_bottom", "start": {"x": W, "y": H}, "end": {"x": 0, "y": H}, "thickness": 250},
+            {"id": "w_outer_left", "start": {"x": 0, "y": H}, "end": {"x": 0, "y": 0}, "thickness": 250},
+            {"id": "w_div_vertical", "start": {"x": div_x, "y": 0}, "end": {"x": div_x, "y": H}, "thickness": 150},
+            {"id": "w_div_horiz_left", "start": {"x": 0, "y": div_y_left}, "end": {"x": div_x, "y": div_y_left}, "thickness": 150},
+            {"id": "w_div_horiz_right", "start": {"x": div_x, "y": div_y_right}, "end": {"x": W, "y": div_y_right}, "thickness": 150}
+        ]
+        
+        for ws in wall_segments:
+            walls.append({
+                "id": ws["id"],
+                "start": ws["start"],
+                "end": ws["end"],
+                "thickness": ws["thickness"],
+                "height": 2800,
+                "layer": "Walls"
+            })
+            
+        doors.extend([
+            {
+                "id": "d_main",
+                "wallId": "w_outer_bottom",
+                "position": 0.25,
+                "width": 900,
+                "height": 2100,
+                "hand": "left",
+                "direction": "in",
+                "layer": "Doors"
+            },
+            {
+                "id": "d_bedroom",
+                "wallId": "w_div_horiz_left",
+                "position": 0.3,
+                "width": 850,
+                "height": 2100,
+                "hand": "left",
+                "direction": "in",
+                "layer": "Doors"
+            },
+            {
+                "id": "d_bathroom",
+                "wallId": "w_div_horiz_right",
+                "position": 0.4,
+                "width": 750,
+                "height": 2100,
+                "hand": "right",
+                "direction": "in",
+                "layer": "Doors"
+            },
+            {
+                "id": "d_kitchen",
+                "wallId": "w_div_vertical",
+                "position": 0.3,
+                "width": 1000,
+                "height": 2100,
+                "hand": "left",
+                "direction": "in",
+                "layer": "Doors"
+            }
+        ])
+        
+        windows.extend([
+            {
+                "id": "win_living",
+                "wallId": "w_outer_top",
+                "position": 0.3,
+                "width": 1500,
+                "height": 1200,
+                "elevation": 900,
+                "layer": "Windows"
+            },
+            {
+                "id": "win_bedroom",
+                "wallId": "w_outer_left",
+                "position": 0.8,
+                "width": 1200,
+                "height": 1200,
+                "elevation": 900,
+                "layer": "Windows"
+            },
+            {
+                "id": "win_kitchen",
+                "wallId": "w_outer_right",
+                "position": 0.25,
+                "width": 1200,
+                "height": 1200,
+                "elevation": 900,
+                "layer": "Windows"
+            },
+            {
+                "id": "win_bathroom",
+                "wallId": "w_outer_right",
+                "position": 0.8,
+                "width": 600,
+                "height": 600,
+                "elevation": 1500,
+                "layer": "Windows"
+            }
+        ])
+        
+        # Room names
+        r1_name = "Main Office" if is_office else "Living Room"
+        r2_name = "Conference Room" if is_office else "Bedroom"
+        r3_name = "Pantry / Breakroom" if is_office else "Kitchen"
+        r4_name = "Restroom" if is_office else "Bathroom"
+        
+        rooms.extend([
+            {
+                "id": "room_living",
+                "name": r1_name,
+                "points": [
+                    {"x": 0, "y": 0},
+                    {"x": div_x, "y": 0},
+                    {"x": div_x, "y": div_y_left},
+                    {"x": 0, "y": div_y_left}
+                ],
+                "area": round((div_x * div_y_left) / 1000000.0, 1),
+                "layer": "Rooms"
+            },
+            {
+                "id": "room_bedroom",
+                "name": r2_name,
+                "points": [
+                    {"x": 0, "y": div_y_left},
+                    {"x": div_x, "y": div_y_left},
+                    {"x": div_x, "y": H},
+                    {"x": 0, "y": H}
+                ],
+                "area": round((div_x * (H - div_y_left)) / 1000000.0, 1),
+                "layer": "Rooms"
+            },
+            {
+                "id": "room_kitchen",
+                "name": r3_name,
+                "points": [
+                    {"x": div_x, "y": 0},
+                    {"x": W, "y": 0},
+                    {"x": W, "y": div_y_right},
+                    {"x": div_x, "y": div_y_right}
+                ],
+                "area": round(((W - div_x) * div_y_right) / 1000000.0, 1),
+                "layer": "Rooms"
+            },
+            {
+                "id": "room_bathroom",
+                "name": r4_name,
+                "points": [
+                    {"x": div_x, "y": div_y_right},
+                    {"x": W, "y": div_y_right},
+                    {"x": W, "y": H},
+                    {"x": div_x, "y": H}
+                ],
+                "area": round(((W - div_x) * (H - div_y_right)) / 1000000.0, 1),
+                "layer": "Rooms"
+            }
+        ])
+        
+    # Generate raw faces to simulate openskp parser output
     raw_faces.append({
         "id": "f_wall_1",
         "layer": "Walls",
         "normal": {"x": 0, "y": 1, "z": 0},
         "vertices": [
             {"x": 0, "y": 0, "z": 0},
-            {"x": 10000, "y": 0, "z": 0},
-            {"x": 10000, "y": 0, "z": 2800},
+            {"x": W, "y": 0, "z": 0},
+            {"x": W, "y": 0, "z": 2800},
             {"x": 0, "y": 0, "z": 2800}
         ]
     })
     
+    import datetime
     return {
         "metadata": {
             "name": filename,
