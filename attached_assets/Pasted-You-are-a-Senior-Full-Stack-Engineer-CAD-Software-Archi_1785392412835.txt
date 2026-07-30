@@ -1,0 +1,510 @@
+You are a Senior Full-Stack Engineer, CAD Software Architect, Computer Vision Engineer, and AI Engineer.
+
+Build a production-ready full-stack web application called **CAD AI Converter** that converts SketchUp (.skp), AutoCAD DXF/DWG, and structured 3D JSON into interchangeable formats while providing an AI-powered interactive browser viewer.
+
+## Goal
+
+Develop a modular platform where every imported file is converted into a **single canonical JSON model**, enhanced using AI to detect architectural elements, visualized in a browser, edited by the user, and exported back to SKP, DXF, or DWG.
+
+The Canonical JSON must be the **single source of truth** throughout the application.
+
+---
+
+# Supported Inputs
+
+- SketchUp (.skp)
+- AutoCAD (.dwg)
+- AutoCAD (.dxf)
+- Structured 3D JSON
+
+# Supported Outputs
+
+- SketchUp (.skp)
+- AutoCAD (.dwg)
+- AutoCAD (.dxf)
+- Canonical JSON
+
+---
+
+# Conversion Matrix
+
+SKP → JSON
+SKP → DXF
+SKP → DWG
+
+DXF → JSON
+DXF → SKP
+
+DWG → JSON
+DWG → SKP
+
+JSON → SKP
+JSON → DXF
+JSON → DWG
+
+---
+
+# Complete Pipeline
+
+Upload File
+
+↓
+
+Geometry Extraction
+
+↓
+
+Canonical JSON Generation
+
+↓
+
+AI Object Detection
+
+↓
+
+Enhanced Canonical JSON
+
+↓
+
+React Viewer
+
+↓
+
+User Editing
+
+↓
+
+Export
+
+↓
+
+SKP / DXF / DWG
+
+---
+
+# Upload Module
+
+Support:
+
+- Drag & Drop
+- Multiple uploads
+- Progress bar
+- File validation
+- Error handling
+- Conversion history
+
+---
+
+# Geometry Parser
+
+Extract and preserve:
+
+- Walls
+- Doors
+- Windows
+- Rooms
+- Floors
+- Roofs
+- Columns
+- Beams
+- Stairs
+- Layers
+- Groups
+- Components
+- Materials
+- Metadata
+- Object hierarchy
+- Coordinates
+- Units
+- Transformations
+- Object IDs
+
+The parser should work regardless of the original CAD format.
+
+---
+
+# Canonical JSON
+
+Every imported file must first become one unified JSON representation.
+
+Example flow:
+
+Input
+↓
+
+Parser
+
+↓
+
+Canonical JSON
+
+↓
+
+Viewer
+
+↓
+
+Exporter
+
+The JSON must preserve:
+
+- geometry
+- topology
+- hierarchy
+- metadata
+- transforms
+- coordinates
+- layers
+- materials
+- dimensions
+- object relationships
+
+The viewer must render ONLY from this JSON.
+
+All exports must also be generated ONLY from this JSON.
+
+---
+
+# AI Architectural Detection
+
+The application must automatically detect architectural elements using AI instead of relying only on CAD layers or metadata.
+
+AI should identify:
+
+- Walls
+- Doors
+- Windows
+- Rooms
+- Columns
+- Slabs
+- Roofs
+- Beams
+- Stairs
+- Furniture (optional)
+
+The detection must work even when files have missing names, missing layers, or no metadata.
+
+---
+
+# AI Processing Pipeline
+
+Geometry
+
+↓
+
+Feature Extraction
+
+↓
+
+AI Detection
+
+↓
+
+Semantic Classification
+
+↓
+
+Enhanced Canonical JSON
+
+↓
+
+Viewer
+
+↓
+
+DXF / DWG / SKP Export
+
+---
+
+# AI Features
+
+Extract geometric features including:
+
+- vertices
+- faces
+- edges
+- normals
+- thickness
+- dimensions
+- bounding boxes
+- connectivity graph
+- adjacency
+- orientation
+- area
+- volume
+- materials
+- layers (if available)
+
+Support plug-and-play AI models including:
+
+- PointNet++
+- Point Transformer
+- Graph Neural Networks (GNN)
+- YOLO
+- Segment Anything (SAM)
+- PyTorch models
+- ONNX models
+
+The AI engine must be modular so models can be replaced without changing the rest of the system.
+
+---
+
+# AI Output
+
+Each detected object should include:
+
+- unique id
+- object type
+- confidence score
+- geometry
+- metadata
+- dimensions
+
+Example:
+
+{
+"id":"wall_001",
+"type":"wall",
+"confidence":0.98,
+"geometry":{},
+"properties":{
+"length":5000,
+"height":3000,
+"thickness":200
+}
+}
+
+If confidence is below a configurable threshold (e.g., 0.80), classify the object as "Unknown" and highlight it in the viewer for user review.
+
+---
+
+# Interactive Viewer
+
+Build with:
+
+- React
+- TypeScript
+- Three.js
+- Tailwind CSS
+
+Features:
+
+- 2D Floor Plan
+- 3D View
+- Pan
+- Zoom
+- Orbit
+- Object Selection
+- Layer Toggle
+- Measurements
+- Grid
+- Bounding Boxes
+- Object Highlighting
+- AI Detection Overlay
+
+Uploading a Canonical JSON should perfectly reconstruct the model.
+
+---
+
+# Editing
+
+Allow users to:
+
+- Move walls
+- Add walls
+- Delete walls
+- Split walls
+- Merge walls
+- Add doors
+- Delete doors
+- Add windows
+- Delete windows
+- Modify geometry
+- Rename objects
+- Edit metadata
+
+Every edit must immediately update the Canonical JSON.
+
+---
+
+# AI Review Mode
+
+Users can:
+
+- Accept AI detections
+- Reject detections
+- Change object type
+- Merge detections
+- Split detections
+- Draw missing walls
+- Add missing doors/windows
+
+Corrections should update the Canonical JSON and be reusable as future AI training data.
+
+---
+
+# Export
+
+Allow downloading:
+
+- SketchUp (.skp)
+- DXF
+- DWG
+- Canonical JSON
+
+The exported files should closely match the viewer geometry while preserving:
+
+- hierarchy
+- layers
+- metadata
+- transforms
+- coordinates
+
+Use SketchUp SDK (or equivalent) for SKP generation and ODA File Converter (or equivalent) for DWG conversion.
+
+---
+
+# Backend
+
+Python
+
+FastAPI
+
+ezdxf
+
+SketchUp SDK / Ruby API (or equivalent)
+
+ODA File Converter
+
+NumPy
+
+Shapely
+
+PyTorch
+
+ONNX Runtime
+
+OpenCV
+
+---
+
+# Frontend
+
+React
+
+TypeScript
+
+Tailwind CSS
+
+Three.js
+
+React Three Fiber
+
+Zustand
+
+---
+
+# REST API
+
+POST /upload
+
+POST /convert
+
+POST /detect
+
+POST /viewer
+
+POST /export/skp
+
+POST /export/dxf
+
+POST /export/dwg
+
+GET /viewer/{id}
+
+GET /download/{id}
+
+---
+
+# Folder Structure
+
+backend/
+  api/
+  parser/
+  geometry/
+  ai/
+  converters/
+  exporters/
+  services/
+  models/
+  utils/
+
+frontend/
+  viewer/
+  upload/
+  editor/
+  components/
+  services/
+  hooks/
+  store/
+
+shared/
+  schemas/
+
+---
+
+# Non-Functional Requirements
+
+- Modular architecture
+- Type-safe APIs
+- Docker support
+- Logging
+- Error handling
+- Unit tests
+- Integration tests
+- Clean code
+- Easy to extend
+- Production-ready structure
+
+---
+
+# Future AI Modules
+
+Design the architecture to support future AI capabilities including:
+
+- Automatic room labeling
+- Floor segmentation
+- Furniture recognition
+- Structural element detection
+- Automatic dimensions
+- OCR for CAD annotations
+- Quantity Take-Off (BOQ)
+- Material estimation
+- BIM/IFC export
+- AI-assisted floor plan generation
+- AI model fine-tuning from user corrections
+
+---
+
+# Deliverables
+
+Generate a complete production-ready project including:
+
+- React frontend
+- FastAPI backend
+- AI detection engine
+- Canonical JSON pipeline
+- SKP parser
+- DXF/DWG converters
+- Interactive 2D/3D viewer
+- Editing tools
+- AI review mode
+- Export pipeline
+- Docker configuration
+- Database models
+- REST APIs
+- Documentation
+- Example files
+- Clean, scalable, maintainable architecture following SOLID principles and best practices.
+
+Implement the project incrementally, ensuring each feature is functional before moving to the next, with reusable services and a modular architecture suitable for future AI enhancements.
