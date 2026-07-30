@@ -1,0 +1,1 @@
+- [CAD AI Converter stack](cad-ai-converter-stack.md) — two-workflow setup: FastAPI on 8000, Vite proxy on 5000; Three.js needs legacy-peer-deps install

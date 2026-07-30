@@ -1,120 +1,142 @@
 import axios from 'axios'
 import { FloorPlan } from '../store/viewerStore'
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1'
+// In dev the Vite proxy forwards /api → localhost:8000
+// In production a relative URL works across all environments
+const BASE_URL = '/api/v1'
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: { 'Content-Type': 'application/json' },
 })
 
 export interface ProjectListResponse {
   id: string
   filename: string
+  source_format: string
   status: string
   error: string | null
   created_at: string
   updated_at: string
   has_dxf: boolean
   has_dwg: boolean
+  has_skp_script: boolean
+  has_ai: boolean
+}
+
+export interface AIDetection {
+  id: string
+  type: string
+  confidence: number
+  needs_review: boolean
+  geometry: Record<string, unknown>
+  properties: Record<string, unknown>
+  user_accepted?: boolean
+  rejected?: boolean
+  user_reclassified?: boolean
+}
+
+export interface AIMetadata {
+  model: string
+  threshold: number
+  total_detections: number
+  needs_review_count: number
+  feature_summary: Record<string, number>
+}
+
+export interface ProjectDetailResponse {
+  id: string
+  filename: string
+  source_format: string
+  status: string
+  has_dxf: boolean
+  has_dwg: boolean
+  has_skp_script: boolean
+  has_ai: boolean
+  floorplan: FloorPlan
+  ai_detections: AIDetection[]
+  ai_metadata: AIMetadata | null
+}
+
+export interface CorrectionPayload {
+  id: string
+  action: 'accept' | 'reject' | 'reclassify'
+  new_type?: string
 }
 
 export const apiService = {
-  /**
-   * Upload a .skp or .json file to trigger conversion
-   */
+  // ── Upload ────────────────────────────────────────────────────────────────
+
   async uploadFile(file: File) {
     const formData = new FormData()
     formData.append('file', file)
-    
-    const response = await apiClient.post<{
-      id: string
-      filename: string
-      status: string
-      error: string | null
-      created_at: string
-    }>('/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-    return response.data
+    const res = await apiClient.post<{
+      id: string; filename: string; source_format: string; status: string; error: string | null; created_at: string
+    }>('/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+    return res.data
   },
 
-  /**
-   * Get the floor plan JSON and conversion status
-   */
-  async getProjectData(id: string) {
-    const response = await apiClient.get<{
-      id: string
-      filename: string
-      status: string
-      has_dxf: boolean
-      has_dwg: boolean
-      floorplan: FloorPlan
-    }>(`/viewer/${id}`)
-    return response.data
+  // ── Convert ───────────────────────────────────────────────────────────────
+
+  async convertFile(file: File, targetFormat: 'dxf' | 'dwg' | 'json' | 'skp') {
+    const formData = new FormData()
+    formData.append('file', file)
+    const res = await apiClient.post<{
+      id: string; source_format: string; target_format: string; download_url: string
+    }>(`/convert?target_format=${targetFormat}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+    return res.data
   },
 
-  /**
-   * Save the updated floor plan JSON and trigger CAD regeneration
-   */
+  // ── Viewer ────────────────────────────────────────────────────────────────
+
+  async getProjectData(id: string): Promise<ProjectDetailResponse> {
+    const res = await apiClient.get<ProjectDetailResponse>(`/viewer/${id}`)
+    return res.data
+  },
+
   async updateProjectData(id: string, data: FloorPlan) {
-    const response = await apiClient.put<{
-      id: string
-      status: string
-      has_dxf: boolean
-      has_dwg: boolean
-    }>(`/viewer/${id}`, data)
-    return response.data
+    const res = await apiClient.put<{ id: string; status: string; has_dxf: boolean; has_dwg: boolean; has_skp_script: boolean }>(`/viewer/${id}`, data)
+    return res.data
   },
 
-  /**
-   * Returns download URL for JSON, DXF, or DWG
-   */
-  getDownloadUrl(id: string, format: 'json' | 'dxf' | 'dwg'): string {
+  // ── AI ────────────────────────────────────────────────────────────────────
+
+  async runDetection(projectId: string, threshold = 0.8) {
+    const res = await apiClient.post<Record<string, unknown>>(`/detect?project_id=${projectId}&threshold=${threshold}`)
+    return res.data
+  },
+
+  async applyCorrections(projectId: string, corrections: CorrectionPayload[]) {
+    const res = await apiClient.post<Record<string, unknown>>('/detect/correct', { project_id: projectId, corrections })
+    return res.data
+  },
+
+  // ── Export ────────────────────────────────────────────────────────────────
+
+  getDownloadUrl(id: string, format: 'json' | 'dxf' | 'dwg' | 'skp'): string {
     return `${BASE_URL}/download/${id}?format=${format}`
   },
 
-  /**
-   * Downloads a project file (json, dxf, dwg) as a blob
-   */
-  async downloadProjectFile(id: string, format: 'json' | 'dxf' | 'dwg'): Promise<{ data: Blob, filename: string }> {
-    const response = await apiClient.get(`/download/${id}?format=${format}`, {
-      responseType: 'blob'
-    })
-    
-    let filename = `project_${id}.${format}`
-    const disposition = response.headers['content-disposition']
-    if (disposition && disposition.indexOf('attachment') !== -1) {
-      const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/
-      const matches = filenameRegex.exec(disposition)
-      if (matches != null && matches[1]) {
-        filename = matches[1].replace(/['"]/g, '')
-      }
+  async downloadProjectFile(id: string, format: 'json' | 'dxf' | 'dwg' | 'skp'): Promise<{ data: Blob; filename: string }> {
+    const res = await apiClient.get(`/download/${id}?format=${format}`, { responseType: 'blob' })
+    let filename = `project_${id}.${format === 'skp' ? 'rb' : format}`
+    const disp = res.headers['content-disposition']
+    if (disp) {
+      const m = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(disp)
+      if (m?.[1]) filename = m[1].replace(/['"]/g, '')
     }
-    
-    return {
-      data: response.data,
-      filename
-    }
+    return { data: res.data, filename }
   },
 
-  /**
-   * Lists all projects
-   */
-  async listProjects() {
-    const response = await apiClient.get<ProjectListResponse[]>('/projects')
-    return response.data
+  // ── Projects list ─────────────────────────────────────────────────────────
+
+  async listProjects(): Promise<ProjectListResponse[]> {
+    const res = await apiClient.get<ProjectListResponse[]>('/projects')
+    return res.data
   },
 
-  /**
-   * Downloads the SketchUp Ruby Plugin Exporter script
-   */
   async getSketchUpExporterScript(): Promise<string> {
-    const response = await apiClient.get<string>('/sketchup-exporter')
-    return response.data
-  }
+    const res = await apiClient.get<string>('/sketchup-exporter')
+    return res.data
+  },
 }

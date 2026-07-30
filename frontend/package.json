@@ -9,12 +9,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-three/drei": "9.122",
+    "@react-three/fiber": "8.17",
+    "@types/three": "^0.169.0",
     "axios": "^1.6.0",
     "konva": "^9.3.6",
     "lucide-react": "^0.292.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-konva": "^18.2.10",
+    "three": "^0.169.0",
     "zustand": "^4.4.6"
   },
   "devDependencies": {
