@@ -3,7 +3,7 @@ import { FloorPlan } from '../store/viewerStore'
 
 // In dev the Vite proxy forwards /api → localhost:8000
 // In production a relative URL works across all environments
-const BASE_URL = '/api/v1'
+const BASE_URL = import.meta.env.VITE_API_URL || '/api/v1'
 
 const apiClient = axios.create({
   baseURL: BASE_URL,

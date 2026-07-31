@@ -35,7 +35,7 @@ services:
     staticPublishPath: frontend/dist
     envVars:
       - key: VITE_API_URL
-        sync: false # Render will ask you for this value during deployment (use your backend's public URL)
+        value: https://cad-backend-hxd7.onrender.com/api/v1
 
 # 3. PostgreSQL Database
 databases:
