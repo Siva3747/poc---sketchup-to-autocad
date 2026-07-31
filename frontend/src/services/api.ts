@@ -135,6 +135,11 @@ export const apiService = {
     return res.data
   },
 
+  async clearProjects(): Promise<{ deleted: number }> {
+    const res = await apiClient.delete<{ deleted: number }>('/projects')
+    return res.data
+  },
+
   async getSketchUpExporterScript(): Promise<string> {
     const res = await apiClient.get<string>('/sketchup-exporter')
     return res.data

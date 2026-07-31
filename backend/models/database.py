@@ -1,6 +1,6 @@
 import datetime
 import uuid
-from sqlalchemy import create_engine, Column, String, DateTime, Text
+from sqlalchemy import create_engine, Column, String, DateTime, Text, inspect, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from backend.utils.config import settings
@@ -34,6 +34,26 @@ class Project(Base):
 
 def init_db():
     Base.metadata.create_all(bind=engine)
+    # ``create_all`` creates tables but intentionally does not alter an
+    # existing SQLite table. Keep local databases created by earlier versions
+    # compatible with the current Project model.
+    if engine.dialect.name == "sqlite":
+        existing_columns = {
+            column["name"] for column in inspect(engine).get_columns("projects")
+        }
+        missing_columns = {
+            "source_format": "VARCHAR",
+            "ai_json_path": "VARCHAR",
+            "skp_script_path": "VARCHAR",
+        }
+        with engine.begin() as connection:
+            for column_name, column_type in missing_columns.items():
+                if column_name not in existing_columns:
+                    connection.execute(
+                        text(
+                            f"ALTER TABLE projects ADD COLUMN {column_name} {column_type}"
+                        )
+                    )
 
 def get_db():
     db = SessionLocal()

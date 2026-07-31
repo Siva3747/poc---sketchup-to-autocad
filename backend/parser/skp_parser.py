@@ -2,6 +2,7 @@ import json
 import os
 import random
 import datetime
+import math
 from typing import Dict, Any, List
 from backend.utils.logger import logger
 
@@ -33,7 +34,7 @@ def parse_skp_file(file_path: str) -> Dict[str, Any]:
     Main entry point for parsing SketchUp files.
     - If it's a JSON file (exported by our Ruby script), we load it directly.
     - If it's a binary SKP, we try openskp.
-    - If openskp fails or is unavailable, we trigger the Mock Floor Plan Generator.
+    - Binary models are converted into real plan-view geometry for detection.
     """
     logger.info(f"Attempting to parse file: {file_path}")
     
@@ -63,46 +64,35 @@ def parse_skp_file(file_path: str) -> Dict[str, Any]:
     if OPENSKP_AVAILABLE and is_skp:
         try:
             logger.info("Parsing SketchUp binary file using openskp library...")
-            model = SkpFile.open(file_path)
-            
-            faces = []
+            model = SkpFile.open(file_path).parse()
+
+            # openskp exposes geometry through model definitions, not the
+            # SkpFile wrapper. Keep long, horizontal edges: they represent
+            # the plan-view outlines while excluding vertical wall edges and
+            # tiny construction details that overwhelm the detector.
+            candidate_edges = []
+            for definition in model.definitions.values():
+                for edge in definition.edges.values():
+                    start = definition.vertices.get(edge.v1_id)
+                    end = definition.vertices.get(edge.v2_id)
+                    if not start or not end or abs(start.z - end.z) > 0.01:
+                        continue
+                    length_mm = math.hypot(end.x - start.x, end.y - start.y) * 25.4
+                    if length_mm >= 100:
+                        candidate_edges.append((length_mm, start, end, definition.name))
+
+            candidate_edges.sort(key=lambda item: item[0], reverse=True)
             edges = []
-            instances = []
-            
-            # Extract faces
-            for i, face in enumerate(model.faces):
-                vertices = []
-                for v in face.vertices:
-                    # Convert internal units (inches) to millimeters
-                    # 1 inch = 25.4 mm
-                    vertices.append({
-                        "x": v.x * 25.4,
-                        "y": v.y * 25.4,
-                        "z": v.z * 25.4
-                    })
-                
-                # Check normal direction
-                normal = {"x": face.normal.x, "y": face.normal.y, "z": face.normal.z} if hasattr(face, "normal") else {"x": 0, "y": 0, "z": 1}
-                layer = face.layer.name if hasattr(face, "layer") and face.layer else "Layer0"
-                material = face.material.name if hasattr(face, "material") and face.material else None
-                
-                faces.append({
-                    "id": f"face_{i}",
-                    "layer": layer,
-                    "vertices": vertices,
-                    "normal": normal,
-                    "material": material
-                })
-                
-            # Extract independent edges
-            for i, edge in enumerate(model.edges):
-                layer = edge.layer.name if hasattr(edge, "layer") and edge.layer else "Layer0"
+            for i, (_, start, end, layer) in enumerate(candidate_edges[:800]):
                 edges.append({
                     "id": f"edge_{i}",
-                    "layer": layer,
-                    "start": {"x": edge.start.x * 25.4, "y": edge.start.y * 25.4, "z": edge.start.z * 25.4},
-                    "end": {"x": edge.end.x * 25.4, "y": edge.end.y * 25.4, "z": edge.end.z * 25.4}
+                    "layer": layer or "Layer0",
+                    "start": {"x": start.x * 25.4, "y": start.y * 25.4, "z": start.z * 25.4},
+                    "end": {"x": end.x * 25.4, "y": end.y * 25.4, "z": end.z * 25.4},
                 })
+
+            if not edges:
+                raise ValueError("No usable plan-view edges were found in this SketchUp model.")
                 
             # Compile exported data
             export_data = {
@@ -118,20 +108,25 @@ def parse_skp_file(file_path: str) -> Dict[str, Any]:
                 "windows": [],
                 "rooms": [],
                 "raw_geometry": {
-                    "faces": faces,
+                    "faces": [],
                     "edges": edges,
-                    "instances": instances
+                    "instances": [],
                 }
             }
-            logger.info(f"openskp parse complete. Extracted {len(faces)} faces and {len(edges)} edges.")
+            logger.info(f"openskp parse complete. Extracted {len(edges)} plan-view edges.")
             return export_data
             
         except Exception as e:
-            logger.error(f"openskp failed to parse the file: {e}. Falling back to mock generator.")
+            logger.error(f"openskp failed to parse the file: {e}")
+            raise ValueError(
+                "This SketchUp model version cannot be read directly. "
+                "In SketchUp, run the supplied SketchUp JSON exporter and upload the exported JSON file."
+            ) from e
             
-    # 2. Mock Generator Fallback
-    logger.info("Generating realistic mock architectural floor plan for demo purposes.")
-    return generate_mock_floorplan(os.path.basename(file_path))
+    raise ValueError(
+        "This SketchUp file cannot be parsed directly. Export it with the supplied "
+        "SketchUp JSON exporter and upload the resulting JSON file."
+    )
 
 def generate_mock_floorplan(filename: str) -> Dict[str, Any]:
     """

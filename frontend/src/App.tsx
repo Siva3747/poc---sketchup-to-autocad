@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {
   Cpu, Upload, HelpCircle, FolderLock, Clock, ChevronRight,
-  RefreshCcw, AlertCircle, Brain, CheckCircle
+  RefreshCcw, AlertCircle, Brain, CheckCircle, Trash2
 } from 'lucide-react'
 import { UploadZone } from './components/UploadZone'
 import { Toolbar } from './components/Toolbar'
@@ -56,6 +56,19 @@ const App: React.FC = () => {
 
   const handleUploadSuccess = (projectId: string) => {
     handleLoadProject(projectId, 'Processing Model…')
+  }
+
+  const handleClearHistory = async () => {
+    if (!projectsList.length || !window.confirm('Delete all conversion history and generated files? This cannot be undone.')) return
+    setLoadingList(true)
+    try {
+      await apiService.clearProjects()
+      setProjectsList([])
+    } catch {
+      setError('Could not delete conversion history. Please try again.')
+    } finally {
+      setLoadingList(false)
+    }
   }
 
   return (
@@ -126,9 +139,16 @@ const App: React.FC = () => {
                   <Clock className="h-4 w-4 text-blue-400" />
                   <span>Recent Conversions</span>
                 </div>
-                <button onClick={fetchProjects} className="text-gray-500 hover:text-blue-400 transition-colors p-1">
-                  <RefreshCcw className={`h-3.5 w-3.5 ${loadingList ? 'animate-spin' : ''}`} />
-                </button>
+                <div className="flex items-center gap-1">
+                  <button onClick={handleClearHistory} disabled={!projectsList.length || loadingList}
+                    title="Clear conversion history"
+                    className="text-gray-500 hover:text-rose-400 disabled:opacity-30 disabled:hover:text-gray-500 transition-colors p-1">
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                  <button onClick={fetchProjects} title="Refresh history" className="text-gray-500 hover:text-blue-400 transition-colors p-1">
+                    <RefreshCcw className={`h-3.5 w-3.5 ${loadingList ? 'animate-spin' : ''}`} />
+                  </button>
+                </div>
               </div>
 
               <div className="flex-1 overflow-y-auto flex flex-col gap-2 pr-1">

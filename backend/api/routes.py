@@ -315,6 +315,30 @@ def list_projects(db: Session = Depends(get_db)):
     return result
 
 
+@router.delete("/projects", response_model=Dict[str, int])
+def clear_projects(db: Session = Depends(get_db)):
+    """Delete the conversion history and its generated local files."""
+    projects = db.query(Project).all()
+    upload_dir = os.path.abspath(settings.UPLOAD_DIR)
+    file_fields = (
+        "original_file_path", "json_path", "ai_json_path", "dxf_path",
+        "dwg_path", "skp_script_path",
+    )
+
+    for project in projects:
+        for field in file_fields:
+            path = getattr(project, field, None)
+            if not path:
+                continue
+            absolute_path = os.path.abspath(path)
+            if os.path.commonpath([upload_dir, absolute_path]) == upload_dir and os.path.isfile(absolute_path):
+                os.remove(absolute_path)
+        db.delete(project)
+
+    db.commit()
+    return {"deleted": len(projects)}
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Misc
 # ─────────────────────────────────────────────────────────────────────────────

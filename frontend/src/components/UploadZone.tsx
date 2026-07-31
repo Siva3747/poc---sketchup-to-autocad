@@ -84,15 +84,10 @@ export const UploadZone: React.FC<UploadZoneProps> = ({ onUploadSuccess }) => {
             <div className="h-16 w-16 rounded-full bg-blue-500/10 flex items-center justify-center mb-5">
               <Upload className="h-8 w-8 text-blue-500" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-2 font-display">Upload CAD / BIM File</h3>
+            <h3 className="text-xl font-bold text-white mb-2 font-display">Upload .skp File or JSON</h3>
             <p className="text-sm text-gray-400 mb-5 max-w-sm">
               Drag & drop or browse — supports{' '}
-              {ACCEPTED_EXTS.map((ext, i) => (
-                <span key={ext}>
-                  <span className={FORMAT_COLORS[ext.slice(1)] ?? 'text-blue-400'} style={{fontWeight:600}}>{ext}</span>
-                  {i < ACCEPTED_EXTS.length - 1 ? ', ' : ''}
-                </span>
-              ))}
+              <span className="text-blue-400" style={{ fontWeight: 600 }}>.skp, .json</span>
             </p>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 text-xs font-semibold tracking-wide uppercase transition-colors border border-blue-500/20">
               <Cpu className="h-3.5 w-3.5" />
